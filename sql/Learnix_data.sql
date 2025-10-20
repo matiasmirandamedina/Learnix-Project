@@ -54,9 +54,9 @@ INSERT INTO subjects (name) VALUES
 -- ====================================================
 -- INSERT: class_sections
 -- ====================================================
-INSERT INTO class_sections (year_id, courses_id, teacher_id, name) VALUES
-	(1, 1, 2, '1°A'),
-	(1, 1, 3, '1°B');
+INSERT INTO class_sections (year_id, courses_id, teacher_id, name, code) VALUES
+	(1, 1, 2, '1°A', 101),
+	(1, 1, 3, '1°B', 102);
 
 -- ====================================================
 -- INSERT: class_subjects
@@ -101,3 +101,49 @@ INSERT INTO grades (subject_id, report_card_id, grade_value, comment) VALUES
 	(2, 3, 7, 'Buen progreso'),
 	(1, 5, 10, 'Excelente comprensión de conceptos'),
 	(2, 5, 9, 'Excelente escritura');
+
+-- ====================================================
+-- INSERT: entities
+-- ====================================================
+INSERT INTO entities (name) VALUES
+	('Usuarios'),
+	('Cursos'),
+	('Materias'),
+	('Notas'),
+	('Reportes');
+
+-- ====================================================
+-- INSERT: actions
+-- ====================================================
+INSERT INTO actions (name) VALUES
+	('Crear'),
+	('Leer'),
+	('Actualizar'),
+	('Eliminar');
+
+-- ====================================================
+-- INSERT: permissions
+-- ====================================================
+INSERT INTO permissions (entity_id, action_id) VALUES
+	(1, 1), -- Usuarios -> Crear
+	(1, 2), -- Usuarios -> Leer
+	(1, 3), -- Usuarios -> Actualizar
+	(1, 4), -- Usuarios -> Eliminar
+	(4, 2), -- Notas -> Leer
+	(5, 2); -- Reportes -> Leer
+
+-- ====================================================
+-- INSERT: role_permissions
+-- ====================================================
+INSERT INTO role_permissions (role_id, permission_id) VALUES
+	(1, 1), (1, 2), (1, 3), (1, 4), -- Admin total acceso usuarios
+	(2, 5), (2, 6),                 -- Profesor puede leer notas y reportes
+	(3, 6);                         -- Alumno puede leer reportes
+
+-- ====================================================
+-- INSERT: binnacles
+-- ====================================================
+INSERT INTO binnacles (action_id, fact, old_value, new_value, created_at) VALUES
+	(3, 4, 'nota: 7', 'nota: 8', '2025-06-15'),
+	(1, 5, NULL, 'nuevo alumno agregado', '2025-03-02'),
+	(4, 6, 'usuario activo', 'usuario eliminado', '2025-08-20');

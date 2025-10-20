@@ -1,10 +1,10 @@
 USE Learnix;
 
 -- ====================================================
--- CONSULTAS DE PRUEBA - LEARNIX
+-- CONSULTAS DE PRUEBA - LEARNIX (Actualizadas)
 -- ====================================================
 
--- 1️ Listar todos los usuarios con su rol
+-- 1. Listar todos los usuarios con su rol
 -- Muestra todos los usuarios junto a su rol asignado.
 SELECT 
     u.id,
@@ -16,11 +16,12 @@ JOIN roles r ON u.role_id = r.id
 ORDER BY r.name, u.name;
 
 -- ====================================================
--- 2️ Listar alumnos y la clase en la que están inscriptos
--- Incluye el año y curso de cada clase.
+-- 2. Listar alumnos y la clase en la que están inscriptos
+-- Incluye el año, curso y código de la clase.
 SELECT 
     u.name AS alumno,
     cs.name AS clase,
+    cs.code AS codigo_clase,
     y.name AS año,
     c.name AS curso
 FROM student_class sc
@@ -31,11 +32,12 @@ JOIN courses c ON cs.courses_id = c.id
 ORDER BY cs.name, u.name;
 
 -- ====================================================
--- 3️ Mostrar los profesores y las clases que enseñan
+-- 3. Mostrar los profesores y las clases que enseñan
 -- Lista todos los profesores asignados a cada clase.
 SELECT 
     u.name AS profesor,
     cs.name AS clase,
+    cs.code AS codigo_clase,
     y.name AS año,
     c.name AS curso
 FROM class_sections cs
@@ -45,7 +47,7 @@ JOIN courses c ON cs.courses_id = c.id
 ORDER BY profesor;
 
 -- ====================================================
--- 4️ Mostrar las materias de cada clase
+-- 4. Mostrar las materias de cada clase
 -- Muestra qué materias se dictan en cada división.
 SELECT 
     cs.name AS clase,
@@ -56,7 +58,7 @@ JOIN subjects s ON csub.subject_id = s.id
 ORDER BY cs.name, s.name;
 
 -- ====================================================
--- 5️ Mostrar los boletines de cada alumno por período
+-- 5. Mostrar los boletines de cada alumno por período
 -- Permite visualizar los boletines creados por alumno.
 SELECT 
     u.name AS alumno,
@@ -68,7 +70,7 @@ JOIN periods p ON rc.period_id = p.id
 ORDER BY u.name, p.date_init;
 
 -- ====================================================
--- 6️ Mostrar las notas de los alumnos (con materias y comentarios)
+-- 6. Mostrar las notas de los alumnos (con materias y comentarios)
 -- Incluye alumno, materia, nota y comentario del profesor.
 SELECT 
     u.name AS alumno,
@@ -84,7 +86,7 @@ JOIN periods p ON rc.period_id = p.id
 ORDER BY u.name, s.name;
 
 -- ====================================================
--- 7️ Promedio de notas por alumno y período
+-- 7. Promedio de notas por alumno y período
 -- Calcula el promedio de cada alumno en cada trimestre.
 SELECT 
     u.name AS alumno,
@@ -98,7 +100,7 @@ GROUP BY u.name, p.name
 ORDER BY alumno, periodo;
 
 -- ====================================================
--- 8️ Promedio general por materia
+-- 8. Promedio general por materia
 -- Muestra el promedio general de notas para cada materia.
 SELECT 
     s.name AS materia,
@@ -109,18 +111,19 @@ GROUP BY s.name
 ORDER BY promedio_general DESC;
 
 -- ====================================================
--- 9️ Cantidad de alumnos por clase
+-- 9. Cantidad de alumnos por clase
 -- Informa cuántos alumnos están inscriptos en cada clase.
 SELECT 
     cs.name AS clase,
+    cs.code AS codigo_clase,
     COUNT(sc.student_id) AS cantidad_alumnos
 FROM class_sections cs
 LEFT JOIN student_class sc ON cs.id = sc.class_sections_id
-GROUP BY cs.name
+GROUP BY cs.name, cs.code
 ORDER BY cantidad_alumnos DESC;
 
 -- ====================================================
--- 10 Listar todos los períodos con su duración en días
+-- 10. Listar todos los períodos con su duración en días
 -- Calcula la duración de cada período lectivo.
 SELECT 
     name AS periodo,
@@ -130,7 +133,7 @@ SELECT
 FROM periods;
 
 -- ====================================================
--- 11️ Promedio general de cada alumno (todos los períodos)
+-- 11. Promedio general de cada alumno (todos los períodos)
 -- Mide el rendimiento global del alumno en toda la base.
 SELECT 
     u.name AS alumno,
@@ -142,7 +145,7 @@ GROUP BY u.name
 ORDER BY promedio_general DESC;
 
 -- ====================================================
--- 12️ Materias con notas más altas por período
+-- 12. Materias con notas más altas por período
 -- Muestra las mejores notas de cada materia en cada trimestre.
 SELECT 
     p.name AS periodo,
@@ -156,7 +159,7 @@ GROUP BY p.name, s.name
 ORDER BY p.name, nota_maxima DESC;
 
 -- ====================================================
--- 13️ Alumnos con materias desaprobadas (nota < 6)
+-- 13. Alumnos con materias desaprobadas (nota < 6)
 -- Muestra quiénes deben recuperar materias.
 SELECT 
     u.name AS alumno,
@@ -170,3 +173,31 @@ JOIN users u ON rc.student_id = u.id
 JOIN periods p ON rc.period_id = p.id
 WHERE g.grade_value < 6
 ORDER BY alumno, materia;
+
+-- ====================================================
+-- 14. Listar roles y los permisos asignados
+-- Muestra qué acciones puede realizar cada rol sobre qué entidad.
+SELECT 
+    r.name AS rol,
+    e.name AS entidad,
+    a.name AS accion
+FROM role_permissions rp
+JOIN roles r ON rp.role_id = r.id
+JOIN permissions p ON rp.permission_id = p.id
+JOIN entities e ON p.entity_id = e.id
+JOIN actions a ON p.action_id = a.id
+ORDER BY rol, entidad, accion;
+
+-- ====================================================
+-- 15. Ver registro (bitácora) de acciones
+-- Muestra las acciones registradas con fecha.
+SELECT 
+    b.id,
+    a.name AS accion,
+    b.fact,
+    b.old_value AS valor_anterior,
+    b.new_value AS valor_nuevo,
+    b.created_at AS fecha
+FROM binnacles b
+JOIN actions a ON b.action_id = a.id
+ORDER BY b.created_at DESC;

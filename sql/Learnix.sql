@@ -96,6 +96,7 @@ CREATE TABLE class_sections (
     courses_id INT NOT NULL,
     teacher_id INT,
     name VARCHAR(100) NOT NULL,
+    code INT,
     FOREIGN KEY (year_id) REFERENCES years(id),
     FOREIGN KEY (courses_id) REFERENCES courses(id),
     FOREIGN KEY (teacher_id) REFERENCES users(id)
@@ -121,4 +122,55 @@ CREATE TABLE student_class (
     class_sections_id INT NOT NULL,
     FOREIGN KEY (student_id) REFERENCES users(id),
     FOREIGN KEY (class_sections_id) REFERENCES class_sections(id)
+);
+
+-- ====================================================
+-- TABLA: entities
+-- ====================================================
+CREATE TABLE entities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- ====================================================
+-- TABLA: actions
+-- ====================================================
+CREATE TABLE actions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- ====================================================
+-- TABLA: permissions
+-- ====================================================
+CREATE TABLE permissions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    entity_id INT NOT NULL,
+    action_id INT NOT NULL,
+    FOREIGN KEY (entity_id) REFERENCES entities(id),
+    FOREIGN KEY (action_id) REFERENCES actions(id)
+);
+
+-- ====================================================
+-- TABLA: role_permissions
+-- ====================================================
+CREATE TABLE role_permissions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    role_id INT NOT NULL,
+    permission_id INT NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+    FOREIGN KEY (permission_id) REFERENCES permissions(id)
+);
+
+-- ====================================================
+-- TABLA: binnacles (bitácora / logs)
+-- ====================================================
+CREATE TABLE binnacles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    action_id INT NOT NULL,
+    fact INT,
+    old_value VARCHAR(255),
+    new_value VARCHAR(255),
+    created_at DATE,
+    FOREIGN KEY (action_id) REFERENCES actions(id)
 );
