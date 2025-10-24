@@ -12,12 +12,12 @@ INSERT INTO roles (name) VALUES
 -- INSERT: users
 -- ====================================================
 INSERT INTO users (role_id, name, date_of_birth, phone, cuil, tuition, email, password) VALUES
-	(1, 'Laura Fernández', '1985-03-14', 1122334455, 20123456789, NULL, 'laura.fernandez@learnix.edu', 'admin123'),
-	(2, 'Carlos Pérez', '1990-07-22', 1133445566, 20234567891, NULL, 'carlos.perez@learnix.edu', 'profesor123'),
-	(2, 'María López', '1988-11-05', 1144556677, 20345678912, NULL, 'maria.lopez@learnix.edu', 'profesor123'),
-	(3, 'Ana García', '2008-04-10', 1155667788, 20456789123, 1001, 'ana.garcia@learnix.edu', 'alumno123'),
-	(3, 'Juan Torres', '2008-09-15', 1166778899, 20567891234, 1002, 'juan.torres@learnix.edu', 'alumno123'),
-	(3, 'Lucía Ramos', '2007-12-01', 1177889900, 20678912345, 1003, 'lucia.ramos@learnix.edu', 'alumno123');
+	(1, 'Laura Fernández', '1985-03-14', "1122334455", "20123456789", NULL, 'laura.fernandez@learnix.edu', 'admin123'),
+	(2, 'Carlos Pérez', '1990-07-22', "1133445566", "20234567891", NULL, 'carlos.perez@learnix.edu', 'profesor123'),
+	(2, 'María López', '1988-11-05', "1144556677", "20345678912", NULL, 'maria.lopez@learnix.edu', 'profesor123'),
+	(3, 'Ana García', '2008-04-10', "1155667788", "20456789123", 1001, 'ana.garcia@learnix.edu', 'alumno123'),
+	(3, 'Juan Torres', '2008-09-15', "1166778899", "20567891234", 1002, 'juan.torres@learnix.edu', 'alumno123'),
+	(3, 'Lucía Ramos', '2007-12-01', "1177889900", "20678912345", 1003, 'lucia.ramos@learnix.edu', 'alumno123');
 
 -- ====================================================
 -- INSERT: periods

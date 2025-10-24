@@ -21,11 +21,12 @@ CREATE TABLE users (
     role_id INT,
     name VARCHAR(150) NOT NULL,
     date_of_birth DATE,
-    phone BIGINT,
-    cuil BIGINT,
+    phone VARCHAR,
+    cuil VARCHAR,
     tuition INT UNIQUE,
     email VARCHAR(150) UNIQUE,
     password VARCHAR(255),
+    
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 

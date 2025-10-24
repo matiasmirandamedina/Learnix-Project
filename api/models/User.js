@@ -3,7 +3,8 @@ const { DataTypes } = require('sequelize');
 
 const User = sequelize.define('User', {
     role_id: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     name: {
         type: DataTypes.STRING(150),
@@ -13,10 +14,11 @@ const User = sequelize.define('User', {
         type: DataTypes.DATEONLY
     },
     phone: {
-        type: DataTypes.BIGINT
+        type: DataTypes.STRING(10)
     },
     cuil: {
-        type: DataTypes.BIGINT
+        type: DataTypes.STRING(11),
+        unique: true
     },
     tuition: {
         type: DataTypes.INTEGER,
@@ -24,7 +26,8 @@ const User = sequelize.define('User', {
     },
     email: {
         type: DataTypes.STRING(150),
-        unique: true
+        unique: true,
+        validate: { isEmail: true }
     },
     password: {
         type: DataTypes.STRING(255)
