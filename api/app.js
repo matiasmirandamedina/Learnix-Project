@@ -4,7 +4,7 @@ const PORT = 3000;
 
 const cors = require('cors');
 
-//  const appController = require('./controllers/appControllers');
+const loginControllers = require('./controllers/loginControllers');
 
 const { db, Role, User, Period, ReportCard, Subject, Grade, Year, Course, ClassSection, ClassSubject, StudentClass, Entity, Action, Permission, RolePermission, Binnacle } = require('./models');
 
@@ -19,6 +19,8 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
+
+app.post('/loginTeacher', loginControllers.loginTeacher);
 
 app.listen(PORT, async () => {
     try {
