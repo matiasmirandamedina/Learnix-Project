@@ -1,8 +1,12 @@
+// ===================== Importaciones =====================
 const { Grade, Subject, Course } = require('../models');
 
-// Ejemplo: notas de estudiante
+// ===================== Controladores =====================
+
+// Obtener notas de un estudiante
 const studentNotes = async (req, res) => {
     const { studentId } = req.params;
+
     try {
         const grades = await Grade.findAll({
             where: { studentId },
@@ -14,6 +18,7 @@ const studentNotes = async (req, res) => {
     }
 };
 
+// ===================== Exportaciones =====================
 module.exports = {
     studentNotes
 };
