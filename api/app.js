@@ -1,6 +1,8 @@
 // ===================== Importaciones =====================
 const express = require('express');
 const cors = require('cors');
+const {desencript, Rol} = require('./controllers/middleware')
+const {infoper} = require('./controllers/userControllers')
 
 // Importar rutas
 const teacherRoutes = require('./routes/teacherRoutes');
@@ -24,6 +26,9 @@ app.use(cors({
 
 // ===================== Rutas =====================
 app.use('/api/teacher', teacherRoutes);
+
+//Prueba de control de Roles
+//app.get('/infoper', desencript, Rol(['docente', 'estudiante']) ,infoper);
 
 // ===================== Inicialización =====================
 app.listen(PORT, async () => {
