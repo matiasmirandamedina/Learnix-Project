@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const {desencript, Rol} = require('./controllers/middleware')
-const {infoper} = require('./controllers/userControllers')
+const {infoper, Modif_User} = require('./controllers/userControllers')
 
 // Importar rutas
 const teacherRoutes = require('./routes/teacherRoutes');
@@ -29,6 +29,8 @@ app.use('/api/teacher', teacherRoutes);
 
 //Prueba de control de Roles
 //app.get('/infoper', desencript, Rol(['docente', 'estudiante']) ,infoper);
+//prueba de modificacion de usuarios
+//app.put('/modif', desencript, Modif_User);
 
 // ===================== Inicialización =====================
 app.listen(PORT, async () => {
