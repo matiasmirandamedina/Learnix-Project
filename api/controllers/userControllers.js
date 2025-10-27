@@ -1,42 +1,58 @@
 // ===================== Importaciones =====================
 const { User } = require('../models');
 
-const infoper = async (req,res) => {
-    const user = await User.findByPk(req.user.id, {excluide: {
-        atributtes: 'password'
-    }})
-    res.json(user)
-}
+// ===================== Controladores =====================
 
-const Modif_User = async (req,res) => {
-    const {name, date_birth, phone, cuil, tuition, email, password} = req.body;
-    const cambios = {};
+// Información de usuario
+const infoUser = async (req, res) => {
     try {
-    if (name) cambios.name = name;
-    if (date_birth) cambios.date_of_birth = date_birth;
-    if (phone) cambios.phone = phone;
-    if (cuil) cambios.cuil = cuil;
-    if (tuition) cambios.tuition = tuition;
-    if (email) cambios.email = email;
-    if (password) cambios.password = password; 
-    
-    if (Object.keys(cambios).length === 0) {
-        return res.json({ message: 'Ingrese al menos un valor a modificar' });
-    }
+        const user = await User.findByPk(req.user.id, {
+            attributes: { exclude: ['password'] }
+        });
 
-    await User.update(cambios, {
-        where: { id: req.user.id }
-    });
+        if (!user)
+            return res.status(404).json({ message: 'Usuario no encontrado' });
 
-    res.json({message: 'Se actualizo el usuario'});
+        res.json(user);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Error interno', error: err });
+        res.status(500).json({ message: 'Error al obtener información del usuario' });
     }
-    
-}
+};
 
+// Actualizar usuario
+const updateUser = async (req, res) => {
+    const { name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
+    const changes = {};
+
+    try {
+        if (name) changes.name = name;
+        if (date_of_birth) changes.date_of_birth = date_of_birth;
+        if (phone) changes.phone = phone;
+        if (cuil) changes.cuil = cuil;
+        if (tuition) changes.tuition = tuition;
+        if (email) changes.email = email;
+        if (password) changes.password = password;
+
+        if (Object.keys(changes).length === 0)
+            return res.json({ message: 'Ingrese al menos un valor a modificar' });
+
+        const [updated] = await User.update(changes, {
+            where: { id: req.user.id }
+        });
+
+        if (!updated)
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+
+        return res.json({ message: 'Se actualizó el usuario correctamente' });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor', error: err });
+    }
+};
+
+// ===================== Exportaciones =====================
 module.exports = {
-    infoper,
-    Modif_User
+    infoUser,
+    updateUser
 }

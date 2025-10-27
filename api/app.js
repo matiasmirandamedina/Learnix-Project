@@ -1,12 +1,11 @@
 // ===================== Importaciones =====================
 const express = require('express');
 const cors = require('cors');
-const {desencript, Rol} = require('./controllers/middleware')
-const {infoper, Modif_User} = require('./controllers/userControllers')
-const {Userdelete} = require('./controllers/adminControllers')
 
 // Importar rutas
 const teacherRoutes = require('./routes/teacherRoutes');
+const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Importar modelos y base de datos
 const { db, Role, User, Period, ReportCard, Subject, Grade, Year, Course, ClassSection, ClassSubject, StudentClass, Entity, Action, Permission, RolePermission, Binnacle } = require('./models');
@@ -27,15 +26,8 @@ app.use(cors({
 
 // ===================== Rutas =====================
 app.use('/api/teacher', teacherRoutes);
-
-//Prueba de control de Roles
-//app.get('/infoper', desencript, Rol(['docente', 'estudiante']) ,infoper);
-
-//prueba de modificacion de usuarios
-//app.put('/modif', desencript, Modif_User);
-
-// Prueba de eliminacion de usuarios
-//app.delete('/delete', desencript, Rol(['admin']) , Userdelete);
+app.use('/api/user', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 // ===================== Inicialización =====================
 app.listen(PORT, async () => {

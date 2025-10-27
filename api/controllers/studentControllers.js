@@ -14,7 +14,8 @@ const studentNotes = async (req, res) => {
         });
         res.json(grades);
     } catch (err) {
-        res.status(500).json({ message: 'Error interno', error: err });
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
     }
 };
 

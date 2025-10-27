@@ -21,7 +21,8 @@ const loginTeacher = async (req, res) => {
 
         res.json({ token, role: user.role });
     } catch (err) {
-        res.status(500).json({ message: 'Error interno', error: err });
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
     }
 };
 
@@ -43,7 +44,8 @@ const registerTeacher = async (req, res) => {
 
         res.status(201).json({ message: 'Profesor registrado', user: newUser });
     } catch (err) {
-        res.status(500).json({ message: 'Error interno', error: err });
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
     }
 };
 
@@ -58,7 +60,8 @@ const teacherCourses = async (req, res) => {
         });
         res.json(courses);
     } catch (err) {
-        res.status(500).json({ message: 'Error interno', error: err });
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
     }
 };
 
