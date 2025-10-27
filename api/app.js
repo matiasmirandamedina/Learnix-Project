@@ -4,11 +4,13 @@ const cors = require('cors');
 
 // Importar rutas
 const teacherRoutes = require('./routes/teacherRoutes');
-const userRoutes = require('./routes/userRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Importar modelos y base de datos
 const { db, Role, User, Period, ReportCard, Subject, Grade, Year, Course, ClassSection, ClassSubject, StudentClass, Entity, Action, Permission, RolePermission, Binnacle } = require('./models');
+const seedDatabase = require('./config/data');
 
 // ===================== Configuración del servidor =====================
 const app = express();
@@ -26,14 +28,16 @@ app.use(cors({
 
 // ===================== Rutas =====================
 app.use('/api/teacher', teacherRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/student', studentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/user', userRoutes);
 
 // ===================== Inicialización =====================
 app.listen(PORT, async () => {
     try {
         // Sincronizar base de datos
-        await db.sync({ force: false });
+        await db.sync({ force: true });
+        await seedDatabase();
         console.log(`Servidor corriendo en el puerto ${PORT}.`);
     } catch (err) {
         console.error('Error al sincronizar la base de datos:', err);
