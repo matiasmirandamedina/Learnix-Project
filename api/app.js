@@ -36,8 +36,8 @@ app.use('/api/user', userRoutes);
 app.listen(PORT, async () => {
     try {
         // Sincronizar base de datos
-        await db.sync({ force: true });
-        await seedDatabase();
+        await db.sync({ force: false });
+        // await seedDatabase();
         console.log(`Servidor corriendo en el puerto ${PORT}.`);
     } catch (err) {
         console.error('Error al sincronizar la base de datos:', err);
