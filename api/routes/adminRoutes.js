@@ -16,7 +16,7 @@ router.get('/roles', authMiddleware.verifyToken, authMiddleware.authorizeRole(['
 router.post('/createUser', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.createUser);
 
 // Ruta para eliminar usuario
-router.delete('/deleteUser', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.deleteUser);
+// router.delete('/deleteUser', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.deleteUser);
 
 // ===================== Exportaciones =====================
 module.exports = router;

@@ -22,7 +22,7 @@ CREATE TABLE users (
     name VARCHAR(150) NOT NULL,
     date_of_birth DATE,
     phone VARCHAR,
-    cuil VARCHAR,
+    cuil INT UNIQUE,
     tuition INT UNIQUE,
     email VARCHAR(150) UNIQUE,
     password VARCHAR(255),

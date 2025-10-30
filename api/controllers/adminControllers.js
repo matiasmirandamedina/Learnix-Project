@@ -79,33 +79,33 @@ const createUser = async (req, res) => {
 };
 
 // Borrar usuario
-const deleteUser = async (req, res) => {
-  try {
-    const id = req.body.id;
+// const deleteUser = async (req, res) => {
+//   try {
+//     const id = req.body.id;
 
-    if (!id)
-      return res.status(400).json({ message: 'Debe proporcionar un ID válido' });
+//     if (!id)
+//       return res.status(400).json({ message: 'Debe proporcionar un ID válido' });
 
-    if (isNaN(id) || parseInt(id) <= 0)
-      return res.status(400).json({ message: 'El ID debe ser un número entero válido' });
+//     if (isNaN(id) || parseInt(id) <= 0)
+//       return res.status(400).json({ message: 'El ID debe ser un número entero válido' });
 
-    const result = await User.destroy({ where: { id: parseInt(id) } });
+//     const result = await User.destroy({ where: { id: parseInt(id) } });
 
-    // `destroy` devuelve el número de filas eliminadas
-    if (result === 0)
-      return res.status(404).json({ message: 'El ID del usuario no existe' });
+//     // `destroy` devuelve el número de filas eliminadas
+//     if (result === 0)
+//       return res.status(404).json({ message: 'El ID del usuario no existe' });
 
-    return res.json({ message: 'Usuario eliminado correctamente' });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
-  }
-};
+//     return res.json({ message: 'Usuario eliminado correctamente' });
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
+//   }
+// };
 
 // ===================== Exportaciones =====================
 module.exports = {
   createRole,
   roleList,
-  createUser,
-  deleteUser
+  createUser
+  // deleteUser
 }

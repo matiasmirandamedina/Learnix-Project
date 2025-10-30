@@ -1,30 +1,8 @@
 // ===================== Importaciones =====================
 const { User, Course, ClassSection, Subject } = require('../models');
-const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config/jwt');
+const bcrypt = require('bcrypt');
 
 // ===================== Controladores =====================
-
-// Login de profesor
-const loginTeacher = async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-        const user = await User.findOne({ where: { email } });
-        if (!user)
-            return res.status(404).json({ message: 'Usuario no encontrado' });
-
-        if (user.password !== password)
-            return res.status(401).json({ message: 'Contraseña incorrecta' });
-
-        const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-
-        res.json({ token, role: user.role });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
-    }
-};
 
 // Registro de profesor
 const registerTeacher = async (req, res) => {
@@ -34,6 +12,8 @@ const registerTeacher = async (req, res) => {
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser)
             return res.status(400).json({ message: 'El correo ya está registrado' });
+
+        if (password) changes.password = await bcrypt.hash(password, 10);
 
         const newUser = await User.create({
             name,
@@ -67,7 +47,6 @@ const teacherCourses = async (req, res) => {
 
 // ===================== Exportaciones =====================
 module.exports = {
-    loginTeacher,
     registerTeacher,
     teacherCourses
 };

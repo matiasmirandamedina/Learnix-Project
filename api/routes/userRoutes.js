@@ -6,6 +6,9 @@ const userControllers = require('../controllers/userControllers')
 
 // ===================== Rutas =====================
 
+// Ruta para login
+router.post('/login', userControllers.login);
+
 // Ruta para información de usuario
 router.get('/info', authMiddleware.verifyToken, authMiddleware.authorizeRole(['docente', 'estudiante']), userControllers.infoUser);
 

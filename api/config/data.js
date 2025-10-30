@@ -42,7 +42,7 @@ async function seedDatabase() {
                 password: await bcrypt.hash('admin123', 10),
                 date_of_birth: '1980-01-01',
                 phone: '1111111111',
-                cuil: '20111111111',
+                cuil: 20111111111,
                 tuition: 1000
             },
             {
@@ -52,7 +52,7 @@ async function seedDatabase() {
                 password: await bcrypt.hash('rector123', 10),
                 date_of_birth: '1975-06-15',
                 phone: '2222222222',
-                cuil: '20222222222',
+                cuil: 20222222222,
                 tuition: 2000
             },
             {
@@ -62,7 +62,7 @@ async function seedDatabase() {
                 password: await bcrypt.hash('teacher123', 10),
                 date_of_birth: '1990-03-21',
                 phone: '3333333333',
-                cuil: '20333333333',
+                cuil: 20333333333,
                 tuition: 3000
             },
             {
@@ -72,7 +72,7 @@ async function seedDatabase() {
                 password: await bcrypt.hash('student123', 10),
                 date_of_birth: '2008-09-10',
                 phone: '4444444444',
-                cuil: '20444444444',
+                cuil: 20444444444,
                 tuition: 4000
             }
         ];
@@ -144,7 +144,7 @@ async function seedDatabase() {
         }
 
         // === 9. RELACIÓN ESTUDIANTE ↔ CLASE ===
-        const [studentClass] = await StudentClass.findOrCreate({
+        await StudentClass.findOrCreate({
             where: {
                 student_id: users['student'].id,
                 class_sections_id: classSection.id
@@ -214,10 +214,10 @@ async function seedDatabase() {
             }
         });
 
-        console.log('Datos de prueba creados exitosamente.');
+        console.log('✅ Datos de prueba creados exitosamente.');
 
     } catch (error) {
-        console.error('Error al insertar datos de prueba:', error);
+        console.error('❌ Error al insertar datos de prueba:', error);
     }
 }
 

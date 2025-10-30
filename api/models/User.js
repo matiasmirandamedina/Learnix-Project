@@ -17,7 +17,7 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING(10)
     },
     cuil: {
-        type: DataTypes.STRING(11),
+        type: DataTypes.BIGINT,
         unique: true
     },
     tuition: {
