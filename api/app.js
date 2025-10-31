@@ -27,9 +27,9 @@ app.use(cors({
 }));
 
 // ===================== Rutas =====================
+app.use('/api/admin', adminRoutes);
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/student', studentRoutes);
-app.use('/api/admin', adminRoutes);
 app.use('/api/user', userRoutes);
 
 // ===================== Inicialización =====================

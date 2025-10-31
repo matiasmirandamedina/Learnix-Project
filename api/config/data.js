@@ -22,7 +22,7 @@ const bcrypt = require('bcrypt');
 // ===================== Seeder =====================
 async function seedDatabase() {
     try {
-        console.log('🌱 Iniciando carga de datos de prueba...');
+        console.log('Iniciando carga de datos de prueba...');
 
         // === 1. ROLES ===
         const roleNames = ['admin', 'teacher', 'rector', 'student'];
@@ -214,10 +214,10 @@ async function seedDatabase() {
             }
         });
 
-        console.log('✅ Datos de prueba creados exitosamente.');
+        console.log('Datos de prueba creados exitosamente.');
 
     } catch (error) {
-        console.error('❌ Error al insertar datos de prueba:', error);
+        console.error('Error al insertar datos de prueba:', error);
     }
 }
 

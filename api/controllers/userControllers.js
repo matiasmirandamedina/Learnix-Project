@@ -82,6 +82,8 @@ const updateUser = async (req, res) => {
     const { name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
     const changes = {};
 
+    const passwordHash = await bcrypt.hash(password, 10);
+    
     try {
         if (name) changes.name = name;
         if (date_of_birth) changes.date_of_birth = date_of_birth;
@@ -89,7 +91,7 @@ const updateUser = async (req, res) => {
         if (cuil) changes.cuil = cuil;
         if (tuition) changes.tuition = tuition;
         if (email) changes.email = email;
-        if (password) changes.password = password;
+        if (password) changes.password = passwordHash;
 
         if (Object.keys(changes).length === 0)
             return res.json({ message: 'Ingrese al menos un valor a modificar' });

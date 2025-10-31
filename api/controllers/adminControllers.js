@@ -44,9 +44,9 @@ const roleList = async (req, res) => {
 // Crear usuario
 const createUser = async (req, res) => {
   try {
-    const { role_id, name, date_of_birth, phone, cuil, tuition } = req.body;
+    const { role_id, name, date_of_birth, phone, cuil, tuition, email } = req.body;
 
-    if (!role_id || !name || !date_of_birth || !phone || !cuil || !tuition)
+    if (!role_id || !name || !date_of_birth || !phone || !cuil || !tuition || !email)
       return res.status(400).json({ message: 'Faltan datos obligatorios' });
 
     if (isNaN(role_id) || parseInt(role_id) <= 0)
@@ -68,7 +68,8 @@ const createUser = async (req, res) => {
       date_of_birth,
       phone,
       cuil,
-      tuition
+      tuition,
+      email
     });
 
     res.status(201).json({ message: `Usuario creado correctamente con rol '${role.name}'`, user });
