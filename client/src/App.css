@@ -193,7 +193,7 @@ button.MuiButton-contained:hover {
   }
 }
 
-.admin-page, .teacher-page, .rector-page {
+.admin-page, .teacher-page, .rector-page, .student-page {
   padding: 3rem;
   text-align: center;
   background-color: #fff;

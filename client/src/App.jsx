@@ -1,37 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import Home from './components/Home'
-import Login from './components/login'
-import LoginStudent from './components/loginStudent'
-import NavBar from './components/navBar'
-import Footer from './components/footer'
-import HomeAdmin from './components/homeAdmin'
-import HomeTeacher from './components/homeTeacher'
-import HomeRector from './components/homeRector'
-import NavBarAdmin from './components/NavBarAdmin'
-import NavBarTeacher from './components/navBarTeacher'
-import NavBarRector from './components/navBarRector'
+import Home from './components/homePages/home'
+import HomeAdmin from './components/homePages/homeAdmin'
+import HomeTeacher from './components/homePages/homeTeacher'
+import HomeRector from './components/homePages/homeRector'
+import HomeStudent from './components/homePages/homeStudent'
+import Login from './components/loginPages/login'
+import LoginStudent from './components/loginPages/loginStudent'
+import Footer from './components/footerPages/footer'
 
 function App() {
-  const role = localStorage.getItem("role");
-
-  const renderNavBar = () => {
-    switch (role) {
-      case "admin":
-        return <NavBarAdmin />;
-      case "teacher":
-        return <NavBarTeacher />;
-      case "rector":
-        return <NavBarRector />;
-      default:
-        return <NavBar />;
-    }
-  };
-
   return (
     <>
-     {renderNavBar()}
       <main className="contenido-principal">
         <Routes>
           <Route path='/' element={<Home />}></Route>
@@ -41,6 +22,7 @@ function App() {
           <Route path='/homeAdmin' element={<HomeAdmin />}></Route>
           <Route path='/homeTeacher' element={<HomeTeacher />}></Route>
           <Route path='/homeRector' element={<HomeRector />}></Route>
+          <Route path='/homeStudent' element={<HomeStudent />}></Route>
         </Routes>
       </main>
       <Footer />

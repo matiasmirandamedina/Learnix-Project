@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginIcon from "@mui/icons-material/Login";
+import NavBar from '../navBarPages/navBar'
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -38,14 +39,17 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h1>Inicio de Sesión</h1>
-      <input type="text" placeholder="Correo electrónico" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Contraseña" onChange={(e) => setPassword(e.target.value)} />
-      <Button variant="contained" onClick={fetchLogin} sx={{ mt: 2, backgroundColor: "#2196F3" }}>
-        Login <LoginIcon sx={{ ml: 1 }} />
-      </Button>
-    </div>
+    <>
+      <NavBar />
+      <div className="login-container">
+        <h1>Inicio de Sesión</h1>
+        <input type="text" placeholder="Correo electrónico" onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder="Contraseña" onChange={(e) => setPassword(e.target.value)} />
+        <Button variant="contained" onClick={fetchLogin} sx={{ mt: 2, backgroundColor: "#2196F3" }}>
+          Login <LoginIcon sx={{ ml: 1 }} />
+        </Button>
+      </div>
+    </>
   );
 }
 
