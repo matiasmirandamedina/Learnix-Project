@@ -1,218 +1,225 @@
-/* ====== Tipografía base ====== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
+/* ===============================
+  VARIABLES DE COLOR Y FUENTE
+================================= */
 :root {
   --blue-primary: #00489A;
   --blue-accent: #2196F3;
-  --text-dark: #1F2B50;
-  --bg-light: #FBF9F4;
-  --bg-white: #ffffff;
-  --border-light: #D1E3F0;
+  --gray-light: #f7f9fb;
+  --gray-medium: #e0e0e0;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --radius: 12px;
+  --transition: 0.25s ease;
+  --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.05);
+  --font-main: 'Poppins', 'Segoe UI', sans-serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
+/* ===============================
+  ESTILOS BASE
+================================= */
 body {
-  background-color: var(--bg-light);
-  color: var(--text-dark);
   display: flex;
   flex-direction: column;
+  font-family: var(--font-main);
+  background-color: var(--gray-light);
+  color: var(--text-dark);
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
 }
 
-/* ====== Contenedor principal ====== */
-.container {
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-  text-align: center;
+.contenido-principal {
+  flex-grow: 1;
 }
 
-/* ====== Header ====== */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: var(--bg-white);
-  border-bottom: 1px solid var(--border-light);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-header img {
-  height: 32px;
-}
-
-header a {
+h1, h2, h3, h4 {
   color: var(--blue-primary);
+  font-weight: 600;
+}
+
+a {
   text-decoration: none;
-  font-weight: 500;
-}
-
-header a:hover {
-  text-decoration: underline;
-}
-
-/* ====== Botones ====== */
-button {
-  border: none;
-  border-radius: 8px;
-  padding: 0.8rem 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-}
-
-.btn-primary {
-  background-color: var(--blue-accent);
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #1976D2;
-}
-
-.btn-outline {
-  background-color: transparent;
-  color: var(--blue-primary);
-  border: 1.5px solid var(--border-light);
-}
-
-.btn-outline:hover {
-  background-color: var(--blue-accent);
-  color: white;
-}
-
-/* ====== Tarjetas ====== */
-.card {
-  background-color: var(--bg-white);
-  border: 1px solid var(--border-light);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.card p {
-  font-size: 1.8rem;
-  font-weight: 700;
   color: var(--blue-accent);
+  transition: var(--transition);
 }
 
-/* ====== Footer ====== */
-footer {
-  background-color: var(--bg-white);
-  border-top: 1px solid var(--border-light);
-  padding: 1.5rem 2rem;
-  margin-top: auto;
-  text-align: center;
-  font-size: 0.9rem;
+a:hover {
+  color: var(--blue-primary);
 }
 
-footer .links {
+/* ===============================
+  NAVBAR
+================================= */
+.MuiToolbar-root {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin-bottom: 0.8rem;
 }
 
-footer a {
-  color: var(--blue-primary);
-  text-decoration: none;
+.MuiButton-root {
+  border-radius: var(--radius);
+  text-transform: none;
   font-weight: 500;
+  padding: 0.4rem 1rem;
+  transition: var(--transition);
 }
 
-footer a:hover {
-  text-decoration: underline;
+.MuiButton-root:hover {
+  background-color: var(--blue-accent);
+  color: white;
 }
 
-/* ====== Responsividad ====== */
-@media (min-width: 768px) {
-  .container {
-    max-width: 900px;
-    text-align: left;
-  }
-
-  header {
-    padding: 1rem 4rem;
-  }
-
-  .hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3rem 0;
-  }
-
-  .hero-text {
-    max-width: 50%;
-  }
-
-  .hero h1 {
-    font-size: 2.8rem;
-  }
-
-  .card-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 4rem;
-  }
-
-  footer .links {
-    margin: 0;
-  }
+/* ===============================
+  HOME
+================================= */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1rem;
 }
 
-/* ====== Inputs ====== */
-input {
-  width: 100%;
-  max-width: 320px;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  border: 1.5px solid var(--border-light);
-  outline: none;
+.hero h1 {
+  font-size: 2.5rem;
   margin-bottom: 1rem;
-  transition: 0.2s;
-  font-size: 1rem;
 }
 
-input:focus {
-  border-color: var(--blue-accent);
-  box-shadow: 0 0 4px rgba(33,150,243,0.2);
+.hero p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  max-width: 550px;
+  margin: 0 auto;
 }
 
-/* ====== Contenedor login ====== */
+/* ===============================
+  LOGIN Y FORMULARIOS
+================================= */
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 75vh;
   text-align: center;
+  min-height: 75vh;
+  padding: 2rem 3rem;
+  background-color: white;
+  max-width: 420px;
+  margin: 2rem auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
 }
 
 .login-container h1 {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   color: var(--blue-primary);
   font-size: 1.8rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--gray-medium);
+  outline: none;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: #fafafa;
+}
+
+input:focus {
+  border-color: var(--blue-accent);
+  background-color: white;
+  box-shadow: 0 0 4px rgba(33, 150, 243, 0.2);
+}
+
+button.MuiButton-contained {
+  background-color: var(--blue-primary);
+  color: white;
+  font-weight: 500;
+  border-radius: var(--radius);
+  padding: 0.7rem 1.5rem;
+  transition: var(--transition);
+}
+
+button.MuiButton-contained:hover {
+  background-color: var(--blue-accent);
+}
+
+/* ===============================
+  RESPONSIVE DESIGN
+================================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .MuiToolbar-root {
+    flex-wrap: wrap;
+  }
+}
+
+/* Celular */
+@media (max-width: 600px) {
+  .MuiToolbar-root {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .login-container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .hero {
+    padding: 2.5rem 1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  input {
+    font-size: 0.95rem;
+  }
+}
+
+.admin-page, .teacher-page, .rector-page {
+  padding: 3rem;
+  text-align: center;
+  background-color: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+/* ===============================
+  FOOTER
+================================= */
+footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  background-color: var(--gray-medium);
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+footer a {
+  color: var(--blue-primary);
+  font-weight: 500;
+}
+
+footer a:hover {
+  color: var(--blue-accent);
 }

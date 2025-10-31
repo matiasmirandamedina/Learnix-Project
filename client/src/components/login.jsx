@@ -1,21 +1,39 @@
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginIcon from "@mui/icons-material/Login";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const fetchLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/user/login", { email, password });
-      alert("Login exitoso");
-      localStorage.setItem("token", response.data.token);
+      const response = await axios.post("http://localhost:3000/api/user/login", {
+        email,
+        password
+      });
+
+      const { token, role } = response.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+
+      if (role === "admin") navigate("/homeAdmin");
+      else if (role === "teacher") navigate("/homeTeacher");
+      else if (role === "rector") navigate("/homeRector");
+      else alert("Rol no reconocido");
     } catch (error) {
-      if (error.response) alert(error.response.data.message);
-      else if (error.request) alert("No hay respuesta del servidor.");
-      else alert(`Error: ${error.message}`);
+      if (error.response)
+        alert(error.response.data.message);
+
+      else if (error.request)
+        alert("No hay respuesta del servidor.");
+
+      else
+        alert(`Error: ${error.message}`);
     }
   };
 
