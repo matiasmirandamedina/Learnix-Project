@@ -42,24 +42,24 @@ const registerTeacher = async (req, res) => {
     }
 };
 
-// // Obtener cursos de un profesor
-// const teacherCourses = async (req, res) => {
-//     const { teacherId } = req.params;
+// Obtener cursos de un profesor
+const teacherCourses = async (req, res) => {
+    const { teacherId } = req.params;
 
-//     try {
-//         const courses = await ClassSection.findAll({
-//             where: { teacherId: teacherId }
-//         });
+    try {
+        const courses = await ClassSection.findAll({
+            where: { teacherId: teacherId }
+        });
 
-//         if (!courses)
-//             return res.status(400).json('No hay cursos registrados');
+        if (!courses)
+            return res.status(400).json('No hay cursos registrados');
 
-//         res.json(courses);
-//     } catch (err) {
-//         console.error(err);
-//         return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
-//     }
-// };
+        res.json(courses);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
+    }
+};
 
 // // Obtener materias de un profesor
 // const teacherSubject = async (req, res) => {
@@ -109,5 +109,6 @@ const registerTeacher = async (req, res) => {
 
 // ===================== Exportaciones =====================
 module.exports = {
-    registerTeacher
+    registerTeacher,
+    teacherCourses
 };

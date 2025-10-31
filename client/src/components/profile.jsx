@@ -3,7 +3,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginIcon from "@mui/icons-material/Login";
-import NavBar from "./navBarPages/navBar";
+
+import NavBarAdmin from "./navBarPages/NavBarAdmin";
+import NavBarRector from "./navBarPages/navBarRector";
+import NavBarStudent from "./navBarPages/navBarStudent";
+import NavBarTeacher from "./navBarPages/navBarTeacher";
+
+import LogoutButton from "./logOut";
 
 function Profile() {
    const [name, setName] = useState("");
@@ -15,6 +21,7 @@ function Profile() {
    const [password, setPassword] = useState("");
    const navigate = useNavigate();
 
+   const token = localStorage.getItem("token");
    const role = localStorage.getItem("role");
 
    const fetchUpdate = async () => {
@@ -22,15 +29,22 @@ function Profile() {
       const cleanPhone = phone.replace(/\D/g, '');
 
       try {
-         const response = await axios.put("http://localhost:3000/api/user/update", {
-            name,
-            date_of_birth,
-            phone: cleanPhone,
-            cuil: cleanCuil,
-            tuition,
-            email,
-            password,
-         });
+         const response = await axios.put("http://localhost:3000/api/user/update",
+            {
+               name,
+               date_of_birth,
+               phone: cleanPhone,
+               cuil: cleanCuil,
+               tuition,
+               email,
+               password,
+            },
+            {
+               headers: {
+                  Authorization: token
+               }
+            }
+         );
 
          if (role === "admin") navigate("/homeAdmin");
          else if (role === "teacher") navigate("/homeTeacher");
@@ -46,9 +60,29 @@ function Profile() {
       }
    };
 
+   let navBarComponent;
+
+   switch (role) {
+      case "admin":
+         navBarComponent = <NavBarAdmin />;
+         break;
+      case "teacher":
+         navBarComponent = <NavBarTeacher />;
+         break;
+      case "student":
+         navBarComponent = <NavBarStudent />;
+         break;
+      case "rector":
+         navBarComponent = <NavBarRector />;
+         break;
+      default:
+         navBarComponent = null;
+   }
+
+
    return (
       <>
-         <NavBar />
+         {navBarComponent}
          <div className="login-container">
             <h1>Perfil</h1>
             <input type="text" placeholder="Nombre completo" onChange={(e) => setName(e.target.value)} />
@@ -65,6 +99,7 @@ function Profile() {
                </>
             }
             <Button variant="contained" onClick={fetchUpdate} sx={{ mt: 2, backgroundColor: "#2196F3" }} > Actualizar <LoginIcon sx={{ ml: 1 }} /> </Button>
+            <LogoutButton />
          </div>
       </>
    );
