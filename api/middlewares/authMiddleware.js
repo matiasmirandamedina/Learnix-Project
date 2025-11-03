@@ -12,8 +12,12 @@ async function verifyToken(req, res, next) {
         return res.status(400).json({ message: 'No se envió token' });
 
     jwt.verify(token, JWT_SECRET, async (err, decoded) => {
-        if (err)
+        if (err){
+            console.log("se fallo el acceso por token");
             return res.status(401).json({ message: 'Token inválido o expirado' });
+            
+        }
+            
 
         const user = await User.findByPk(decoded.id, { include: { model: Role, as: 'role' } });
         if (!user)
@@ -44,6 +48,25 @@ function authorizeRole(roles = []) {
     };
 }
 
+// async function BitacoraMiddleware(req, res) {
+//     try {
+//       const result = req.result; 
+//       const method = req.method.toLowerCase();
+//       let action;
+
+//       if (method === "post") action = 1;
+//       if (method === "get") action = 2;
+//       if (method === "put") action = 3;
+//       if (method === "delete") action = 4;
+  
+  
+//       return res.status(200).json(result);
+  
+//     } catch (err) {
+//       console.error("Error en bitácora:", err);
+//       return res.status(500).json({ message: 'Error al registrar bitácora', error: err.message });
+//     }
+//   }
 // ===================== Exportaciones =====================
 module.exports = {
     verifyToken,
