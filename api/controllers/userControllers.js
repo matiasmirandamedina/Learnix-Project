@@ -49,7 +49,7 @@ const login = async (req, res) => {
                 return res.status(401).json({ message: 'Contraseña incorrecta' });
 
             const token = jwt.sign({ id: user.id, role: user.role?.name }, JWT_SECRET, { expiresIn: '1h' });
-            
+
             return res.json({ token, role: user.role?.name });
         }
 
@@ -61,7 +61,7 @@ const login = async (req, res) => {
 };
 
 // Información de usuario
-const infoUser = async (req, res) => {
+const infoUser = async (req, res, next) => {
     try {
         const user = await User.findByPk(req.user.id, {
             attributes: { exclude: ['password'] }
@@ -70,7 +70,12 @@ const infoUser = async (req, res) => {
         if (!user)
             return res.status(404).json({ message: 'Usuario no encontrado' });
 
+        const userData = user.toJSON();
+        req.table = "User"
+        req.result = userData;
+
         res.json(user);
+        //next();
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Error al obtener información del usuario' });
@@ -78,12 +83,12 @@ const infoUser = async (req, res) => {
 };
 
 // Actualizar usuario
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
     const { name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
     const changes = {};
 
-    const passwordHash = await bcrypt.hash(password, 10);
-    
+
+
     try {
         if (name) changes.name = name;
         if (date_of_birth) changes.date_of_birth = date_of_birth;
@@ -91,19 +96,34 @@ const updateUser = async (req, res) => {
         if (cuil) changes.cuil = cuil;
         if (tuition) changes.tuition = tuition;
         if (email) changes.email = email;
-        if (password) changes.password = passwordHash;
+        if (password) {
+            const passwordHash = await bcrypt.hash(password, 10);
+            changes.password = passwordHash;
+        }
 
         if (Object.keys(changes).length === 0)
             return res.json({ message: 'Ingrese al menos un valor a modificar' });
 
-        const [updated] = await User.update(changes, {
+
+        const user = await User.findOne({
+            where: { id: req.user.id },
+            attributes: Object.keys(changes)
+        });
+        const userData = user.toJSON();
+        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+        const updated = await User.update(changes, {
             where: { id: req.user.id }
         });
 
-        if (!updated)
-            return res.status(404).json({ message: 'Usuario no encontrado' });
+        req.changes = Object.keys(changes);
+        req.old_value = userData;
+        req.new_value = changes;
+        req.table = "User";
+        req.result = { message: 'Se actualizó el usuario correctamente' };
 
-        return res.json({ message: 'Se actualizó el usuario correctamente' });
+        res.json({ message: 'Se actualizó el usuario correctamente' })
+        //next();
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Error interno del servidor', error: err });

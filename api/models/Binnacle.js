@@ -6,8 +6,11 @@ const Binnacle = sequelize.define('Binnacle', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    fact: {
-        type: DataTypes.INTEGER
+    table: {
+        type: DataTypes.STRING(255)
+    },
+    facts: {
+        type: DataTypes.STRING(255)
     },
     old_value: {
         type: DataTypes.STRING(255)

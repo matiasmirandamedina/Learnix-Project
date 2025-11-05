@@ -4,7 +4,7 @@ const { User, Role } = require('../models');
 // ===================== Controladores =====================
 
 // Crear roles
-const createRole = async (req, res) => {
+const createRole = async (req, res, next) => {
   try {
     const name = req.body.name;
 
@@ -18,8 +18,17 @@ const createRole = async (req, res) => {
       return res.status(400).json({ message: 'El rol ya existe' });
 
     const role = await Role.create({ name: lowerCaseName });
+    const role_NV = await Role.findOne({
+      where: { name: lowerCaseName }
+    })
+
+    const roleData = role_NV.toJSON();
+    req.table = "Role";
+    req.facts = roleData;
+    req.result = { message: 'Rol creado correctamente', role };
 
     res.status(201).json({ message: 'Rol creado correctamente', role});
+    //next();
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
@@ -80,33 +89,38 @@ const createUser = async (req, res) => {
 };
 
 // Borrar usuario
-// const deleteUser = async (req, res) => {
-//   try {
-//     const id = req.body.id;
+const deleteUser = async (req, res,next) => {
+  try {
+    const id = req.body.id;
 
-//     if (!id)
-//       return res.status(400).json({ message: 'Debe proporcionar un ID válido' });
+    if (!id)
+      return res.status(400).json({ message: 'Debe proporcionar un ID válido' });
 
-//     if (isNaN(id) || parseInt(id) <= 0)
-//       return res.status(400).json({ message: 'El ID debe ser un número entero válido' });
+    if (isNaN(id) || parseInt(id) <= 0)
+      return res.status(400).json({ message: 'El ID debe ser un número entero válido' });
+    const user = await User.findOne({ where: { id: id } });
+    const userData = user.toJSON();
+    const result = await User.destroy({ where: { id: parseInt(id) } });
 
-//     const result = await User.destroy({ where: { id: parseInt(id) } });
+    // `destroy` devuelve el número de filas eliminadas
+    if (result === 0)
+      return res.status(404).json({ message: 'El ID del usuario no existe' });
+    req.table = "User";
+    req.facts = userData;
+    req.result = { message: 'Usuario eliminado correctamente' };
 
-//     // `destroy` devuelve el número de filas eliminadas
-//     if (result === 0)
-//       return res.status(404).json({ message: 'El ID del usuario no existe' });
-
-//     return res.json({ message: 'Usuario eliminado correctamente' });
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
-//   }
-// };
+    return res.json({ message: 'Usuario eliminado correctamente' });
+    //next();
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
+  }
+};
 
 // ===================== Exportaciones =====================
 module.exports = {
   createRole,
   roleList,
-  createUser
-  // deleteUser
+  createUser,
+  deleteUser
 }

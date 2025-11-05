@@ -202,17 +202,6 @@ async function seedDatabase() {
             }
         }
 
-        // === 13. BITÁCORA (BINNACLES) ===
-        await Binnacle.findOrCreate({
-            where: { id: 1 },
-            defaults: {
-                action_id: actionRecords['create'].id,
-                fact: 1,
-                old_value: null,
-                new_value: 'Base de datos inicializada',
-                created_at: new Date()
-            }
-        });
 
         console.log('Datos de prueba creados exitosamente.');
 

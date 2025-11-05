@@ -10,10 +10,12 @@ const userControllers = require('../controllers/userControllers')
 router.post('/login', userControllers.login);
 
 // Ruta para información de usuario
-router.get('/info', authMiddleware.verifyToken, authMiddleware.authorizeRole(['docente', 'estudiante']), userControllers.infoUser);
+router.get('/info', authMiddleware.verifyToken, authMiddleware.authorizeRole(['docente', 'student']), userControllers.infoUser);
+// router.get('/info', authMiddleware.verifyToken, authMiddleware.authorizeRole(['docente', 'student']), userControllers.infoUser, authMiddleware.BitacoraMiddleware);
 
 // Ruta para actualizar de usuario
 router.put('/update', authMiddleware.verifyToken, userControllers.updateUser);
+//router.put('/update', authMiddleware.verifyToken, userControllers.updateUser, authMiddleware.BitacoraMiddleware);
 
 // ===================== Exportaciones =====================
 module.exports = router;

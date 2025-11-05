@@ -8,6 +8,7 @@ const adminControllers = require('../controllers/adminControllers')
 
 // Ruta para crear ROL
 router.post('/createRole', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.createRole);
+//router.post('/createRole', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.createRole , authMiddleware.BitacoraMiddleware);
 
 // Ruta para listar roles
 router.get('/roles', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.roleList);
@@ -16,7 +17,8 @@ router.get('/roles', authMiddleware.verifyToken, authMiddleware.authorizeRole(['
 router.post('/createUser', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.createUser);
 
 // Ruta para eliminar usuario
-// router.delete('/deleteUser', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.deleteUser);
+router.delete('/deleteUser', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.deleteUser);
+//router.delete('/deleteUser', authMiddleware.verifyToken, authMiddleware.authorizeRole(['admin']), adminControllers.deleteUser, authMiddleware.BitacoraMiddleware);
 
 // ===================== Exportaciones =====================
 module.exports = router;
