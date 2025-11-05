@@ -116,9 +116,8 @@ const updateUser = async (req, res, next) => {
             where: { id: req.user.id }
         });
 
-        req.changes = Object.keys(changes);
         req.old_value = userData;
-        req.new_value = changes;
+        req.facts = changes;
         req.table = "User";
         req.result = { message: 'Se actualizó el usuario correctamente' };
 

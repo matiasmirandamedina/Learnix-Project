@@ -50,67 +50,52 @@ function authorizeRole(roles = []) {
 
 async function BitacoraMiddleware(req, res) {
     try {
-        const result = req.result;
         const method = req.method.toLowerCase();
         const table = req.table;
         let action;
 
-        if (method === "post"){
+        const facts = req.facts || {};              // datos generales (create, update, delete)
+        const old_value = req.old_value || {};      // datos anteriores (update)
+        const result = req.result || {};            // resultado de lectura o general
+
+        let payload = {
+            table: table,
+            created_at: new Date()
+        };
+
+        if (method === "post") {
             action = 1;
-            const facts = req.facts;
-            await Binnacle.create({
-                action_id: action,
-                table: table,
-                facts: JSON.stringify(Object.keys(facts)),
-                old_value: null,
-                new_value: JSON.stringify(facts),
-                created_at: new Date()
-            });
-            console.log("Insercion a bitacora exitosa")
+            payload.action_id = action;
+            payload.facts = JSON.stringify(Object.keys(facts));
+            payload.old_value = null;
+            payload.new_value = JSON.stringify(facts);
         }
-        if (method === "get"){
+        if (method === "get") {
             action = 2;
-            
-            await Binnacle.create({
-                action_id: action,
-                table: table,
-                facts: JSON.stringify(Object.keys(result)),
-                old_value: null,
-                new_value: JSON.stringify(result),
-                created_at: new Date()
-            });
-            console.log("Insercion a bitacora exitosa")
+            payload.action_id = action;
+            payload.facts = JSON.stringify(Object.keys(result));
+            payload.old_value = null;
+            payload.new_value = JSON.stringify(result);
         }
         if (method === "put") {
             action = 3;
-            const changes = req.changes || [];
-            const old_value = req.old_value || [];
-            const new_value = req.new_value || [];
-              
-            await Binnacle.create({
-                action_id: action,
-                table: table,
-                facts: JSON.stringify(changes),
-                old_value: JSON.stringify(old_value),
-                new_value: JSON.stringify(new_value),
-                created_at: new Date()
-            });
-            console.log("Insercion a bitacora exitosa")
+            payload.action_id = action;
+            payload.facts = JSON.stringify(Object.keys(facts));
+            payload.old_value = JSON.stringify(old_value);
+            payload.new_value = JSON.stringify(facts);
         }
-        if (method === "delete"){
+        if (method === "delete") {
             action = 4;
-            const facts = req.facts;
-            await Binnacle.create({
-                action_id: action,
-                table: table,
-                facts: JSON.stringify(Object.keys(facts)),
-                old_value: JSON.stringify(facts),
-                new_value: null,
-                created_at: new Date()
-            });
-            console.log("Insercion a bitacora exitosa")
+            payload.action_id = action;
+            payload.facts = JSON.stringify(Object.keys(facts));
+            payload.old_value = JSON.stringify(facts);
+            payload.new_value = null;
         }
 
+        if (action > 0) {
+            await Binnacle.create(payload);
+            console.log("Insercion en bitacora exitosa");
+        }
 
         return res.json(result);
 
