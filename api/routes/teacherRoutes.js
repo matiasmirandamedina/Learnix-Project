@@ -1,6 +1,7 @@
 // ===================== Importaciones =====================
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('../middlewares/authMiddleware')
 const teacherControllers = require('../controllers/teacherControllers');
 
 // ===================== Rutas =====================
@@ -9,7 +10,7 @@ const teacherControllers = require('../controllers/teacherControllers');
 router.post('/register', teacherControllers.registerTeacher);
 
 // Ruta para obtener cursos
-router.post('/courses', teacherControllers.teacherCourses);
+router.get('/courses', authMiddleware.verifyToken, authMiddleware.authorizeRole(['teacher']), teacherControllers.teacherCourses);
 
 // ===================== Exportaciones =====================
 module.exports = router;

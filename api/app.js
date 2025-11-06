@@ -7,6 +7,7 @@ const teacherRoutes = require('./routes/teacherRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
+const rectorRoutes = require('./routes/rectorRoutes');
 
 // Importar modelos y base de datos
 const { db, Role, User, Period, ReportCard, Subject, Grade, Year, Course, ClassSection, ClassSubject, StudentClass, Entity, Action, Permission, RolePermission, Binnacle } = require('./models');
@@ -27,6 +28,7 @@ app.use(cors({
 }));
 
 // ===================== Rutas =====================
+app.use('/api/rector', rectorRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/student', studentRoutes);
