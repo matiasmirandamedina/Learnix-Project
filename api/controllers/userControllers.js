@@ -84,10 +84,13 @@ const infoUser = async (req, res, next) => {
 
 // Actualizar usuario
 const updateUser = async (req, res, next) => {
-    const { name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
+    const {idP, name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
     const changes = {};
-
-
+    let verif;
+    if(idP){
+        verif = idP;
+    }
+    else verif = req.user.id;
 
     try {
         if (name) changes.name = name;
@@ -106,14 +109,14 @@ const updateUser = async (req, res, next) => {
 
 
         const user = await User.findOne({
-            where: { id: req.user.id },
+            where: { id: verif },
             attributes: Object.keys(changes)
         });
         const userData = user.toJSON();
         if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
 
         const updated = await User.update(changes, {
-            where: { id: req.user.id }
+            where: { id: verif }
         });
 
         req.old_value = userData;
