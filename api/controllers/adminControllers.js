@@ -89,7 +89,7 @@ const createUser = async (req, res) => {
 };
 
 // Borrar usuario
-const deleteUser = async (req, res,next) => {
+const deleteUser = async (req, res, next) => {
   try {
     const id = req.body.id;
 

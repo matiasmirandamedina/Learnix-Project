@@ -37,6 +37,7 @@ const login = async (req, res) => {
         }
 
         if (email && password) {
+
             const user = await User.findOne({
                 where: { email },
                 include: [{ model: Role, as: 'role' }]
@@ -84,21 +85,40 @@ const infoUser = async (req, res, next) => {
 
 // Actualizar usuario
 const updateUser = async (req, res, next) => {
-    const {idP, name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
+    const { idP, name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
     const changes = {};
     let verif;
-    if(idP){
+    if (idP) {
         verif = idP;
     }
     else verif = req.user.id;
-
+    //cosas a usar
+    console.log(typeof phone[0] === 'string');
+    console.log(isNaN(Number('pepe')));
     try {
         if (name) changes.name = name;
         if (date_of_birth) changes.date_of_birth = date_of_birth;
-        if (phone) changes.phone = phone;
-        if (cuil) changes.cuil = cuil;
-        if (tuition) changes.tuition = tuition;
-        if (email) changes.email = email;
+        if (phone) {
+            if (phone[0] === 0) return res.json({ message: 'el numero de telefono tiene que ser un numero y no puede empezar por cero' });
+            changes.phone = phone;
+        }
+        if (cuil) {
+            if (!Number.isInteger(cuil)) return res.json({ message: 'El cuil tiene que ser un numero' });
+            changes.cuil = cuil;
+        }
+        if (tuition) {
+            if (!Number.isInteger(tuition)) return res.json({ message: 'El cuil tiene que ser un numero' });
+            changes.tuition = tuition;
+        }
+        if (email) {
+            for (let index = 0; index < email.length; index++) {
+                const arroba = email[index];
+                if (arroba = "@") {
+                    changes.email = email;
+                }
+                else return res.json({ message: 'El gmail no es valido' });
+            }
+        }
         if (password) {
             const passwordHash = await bcrypt.hash(password, 10);
             changes.password = passwordHash;
@@ -112,10 +132,11 @@ const updateUser = async (req, res, next) => {
             where: { id: verif },
             attributes: Object.keys(changes)
         });
-        const userData = user.toJSON();
         if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
 
-        const updated = await User.update(changes, {
+        const userData = user.toJSON();
+
+        await User.update(changes, {
             where: { id: verif }
         });
 

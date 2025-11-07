@@ -7,7 +7,7 @@ const ClassSection_List = async (req, res) => {
         const cursos = await ClassSection.findAll();
 
         if (!cursos)
-            return res.status(400).json('No hay roles registrados');
+            return res.status(400).json('No hay cursos registrados');
 
         res.status(200).json(cursos);
     } catch (err) {
@@ -22,7 +22,7 @@ const Subject_List = async (req, res) => {
         const materias = await Subject.findAll();
 
         if (!materias)
-            return res.status(400).json('No hay roles registrados');
+            return res.status(400).json('No hay materias registradas');
 
         res.status(200).json(materias);
     } catch (err) {
@@ -37,7 +37,7 @@ const Period_List = async (req, res) => {
         const bimestres = await Period.findAll();
 
         if (!bimestres)
-            return res.status(400).json('No hay roles registrados');
+            return res.status(400).json('No hay bimestres registrados');
 
         res.status(200).json(bimestres);
     } catch (err) {
@@ -52,7 +52,7 @@ const Permission_List = async (req, res) => {
         const permisos = await Permission.findAll();
 
         if (!permisos)
-            return res.status(400).json('No hay roles registrados');
+            return res.status(400).json('No hay permisos registrados');
 
         res.status(200).json(permisos);
     } catch (err) {
@@ -67,7 +67,7 @@ const ReportCard_List = async (req, res) => {
         const boletines = await ReportCard.findAll();
 
         if (!boletines)
-            return res.status(400).json('No hay roles registrados');
+            return res.status(400).json('No hay boletines registrados');
 
         res.status(200).json(boletines);
     } catch (err) {
@@ -79,7 +79,7 @@ const ReportCard_List = async (req, res) => {
 //Lista de Usuarios
 const User_List = async (req, res) => {
     try {
-        const boletines = await User.findAll({
+        const usuarios = await User.findAll({
             where: {
                 role_id: {
                     [Op.ne]: 1
@@ -87,10 +87,10 @@ const User_List = async (req, res) => {
             }
         });
 
-        if (!boletines)
-            return res.status(400).json('No hay roles registrados');
+        if (!usuarios)
+            return res.status(400).json('No hay usuarios registrados');
 
-        res.status(200).json(boletines);
+        res.status(200).json(usuarios);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
