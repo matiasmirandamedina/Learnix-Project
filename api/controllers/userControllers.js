@@ -93,8 +93,8 @@ const updateUser = async (req, res, next) => {
     }
     else verif = req.user.id;
     //cosas a usar
-    console.log(typeof phone[0] === 'string');
-    console.log(isNaN(Number('pepe')));
+    // console.log(typeof phone[0] === 'string');
+    // console.log(isNaN(Number('pepe')));
     try {
         if (name) changes.name = name;
         if (date_of_birth) changes.date_of_birth = date_of_birth;

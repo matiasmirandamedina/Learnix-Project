@@ -48,58 +48,8 @@ function authorizeRole(roles = []) {
     };
 }
 
-async function BitacoraMiddleware(req, res) {
-    try {
-        //acordions
-        //middleware global
-        const method = req.method.toLowerCase();
-        const table = req.table;
-        const facts = req.facts || {};
-        const old_value = req.old_value || {};
-        const result = req.result || {};
-
-        let payload = {
-            table: table,
-            created_at: new Date(),
-            action: method
-        };
-
-
-        payload.facts = Object.keys(facts).length === 0
-            ? JSON.stringify(Object.keys(result))
-            : JSON.stringify(Object.keys(facts));
-
-        payload.old_value = (
-            method == "put"
-                ? JSON.stringify(old_value)
-                : method == "delete"
-                    ? JSON.stringify(facts)
-                    : null
-        )
-
-        payload.new_value = (
-            method === "put" || method === "post"
-                ? JSON.stringify(facts)
-                : method === "get"
-                    ? JSON.stringify(result)
-                    : null
-        );
-
-        await Binnacle.create(payload);
-        console.log("Insercion en bitacora exitosa");
-
-
-        return res.json({ message: "Se ejecuto el midd" });
-
-    } catch (err) {
-        console.error("Error en bitácora:", err);
-        return res.status(500).json({ message: 'Error al registrar bitácora', error: err.message });
-    }
-}
-
 // ===================== Exportaciones =====================
 module.exports = {
     verifyToken,
-    authorizeRole,
-    BitacoraMiddleware
+    authorizeRole
 }

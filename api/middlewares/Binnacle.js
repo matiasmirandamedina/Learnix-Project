@@ -1,0 +1,82 @@
+// ===================== Importaciones =====================
+const { Binnacle, models } = require('../models');
+
+
+async function BitacoraMiddleware(req, res) {
+    //res.on('finish', async () => {   //esto se va usar para hacerlo de otra manera en caso de que se quiera
+    try {
+        //acordions
+        //middleware global
+        const method = req.method.toLowerCase();
+        const table = req.table;
+        const facts = req.facts || {};
+        const old_value = req.old_value || {};
+        const result = req.result || {};
+
+        let payload = {
+            table: table,
+            created_at: new Date(),
+            action: method
+        };
+
+
+        payload.facts = Object.keys(facts).length === 0
+            ? JSON.stringify(Object.keys(result))
+            : JSON.stringify(Object.keys(facts));
+
+        payload.old_value = (
+            method == "put"
+                ? JSON.stringify(old_value)
+                : method == "delete"
+                    ? JSON.stringify(facts)
+                    : null
+        )
+
+        payload.new_value = (
+            method === "put" || method === "post"
+                ? JSON.stringify(facts)
+                : method === "get"
+                    ? JSON.stringify(result)
+                    : null
+        );
+
+        await Binnacle.create(payload);
+        console.log("Insercion en bitacora exitosa");
+
+
+        return res.json(result);
+
+    } catch (err) {
+        console.error("Error en bitácora:", err);
+        return res.status(500).json({ message: 'Error al registrar bitácora', error: err.message });
+    }
+}
+//)}
+
+async function BeforeBitacora(req, res, next) {
+    const table_name = req.table.name;
+    const method = req.method.toLowerCase();
+    const idC = req.idC; //lo manda el controlador despues del create
+    const { idD } = req.params // se ejecuta antes
+
+    const model = models[table_name];
+    if (!model) return res.json({message: `No existe el modelo Sequelize '${modelName}'`});
+
+    
+    let elec;
+    if (method == "post") elec = idC;
+    else if (method == "delete") elec = idD
+
+    const record = await model.findByPk(elec);
+    if (!record) return res.json({message: `Registro no encontrado en '${modelName}' con ID ${recordId}`});
+
+    const facts = record.toJSON();
+    req.facts = facts
+
+    next();
+}
+
+// ===================== Exportaciones =====================
+module.exports = {
+    BitacoraMiddleware
+}
