@@ -16,6 +16,7 @@ router.get('/info', authMiddleware.verifyToken, userControllers.infoUser);
 // Ruta para actualizar de usuario
 router.put('/update', authMiddleware.verifyToken, userControllers.updateUser);
 //router.put('/update', authMiddleware.verifyToken, userControllers.updateUser, authMiddleware.BitacoraMiddleware);
+//router.get('/practica', authMiddleware.BitacoraMiddleware);
 
 // ===================== Exportaciones =====================
 module.exports = router;

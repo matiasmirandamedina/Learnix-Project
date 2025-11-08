@@ -51,54 +51,45 @@ function authorizeRole(roles = []) {
 async function BitacoraMiddleware(req, res) {
     try {
         //acordions
-        //Terneario y middleware global
+        //middleware global
         const method = req.method.toLowerCase();
         const table = req.table;
-        const facts = req.facts || {};              
-        const old_value = req.old_value || {};      
-        const result = req.result || {};            
+        const facts = req.facts || {};
+        const old_value = req.old_value || {};
+        const result = req.result || {};
 
-        let verif = false;
         let payload = {
             table: table,
-            created_at: new Date()
+            created_at: new Date(),
+            action: method
         };
 
-        if (method === "post") {
-            verif = true;
-            payload.action_id = 1;
-            payload.facts = JSON.stringify(Object.keys(facts));
-            payload.old_value = null;
-            payload.new_value = JSON.stringify(facts);
-        }
-        else if (method === "get") {
-            verif = true;
-            payload.action_id = 2;
-            payload.facts = JSON.stringify(Object.keys(result));
-            payload.old_value = null;
-            payload.new_value = JSON.stringify(result);
-        }
-        else if (method === "put") {
-            verif = true;
-            payload.action_id = 3;
-            payload.facts = JSON.stringify(Object.keys(facts));
-            payload.old_value = JSON.stringify(old_value);
-            payload.new_value = JSON.stringify(facts);
-        }
-        else if (method === "delete") {
-            verif = true;
-            payload.action_id = 4;
-            payload.facts = JSON.stringify(Object.keys(facts));
-            payload.old_value = JSON.stringify(facts);
-            payload.new_value = null;
-        }
 
-        if (verif) {
-            await Binnacle.create(payload);
-            console.log("Insercion en bitacora exitosa");
-        }
+        payload.facts = Object.keys(facts).length === 0
+            ? JSON.stringify(Object.keys(result))
+            : JSON.stringify(Object.keys(facts));
 
-        return res.json(result);
+        payload.old_value = (
+            method == "put"
+                ? JSON.stringify(old_value)
+                : method == "delete"
+                    ? JSON.stringify(facts)
+                    : null
+        )
+
+        payload.new_value = (
+            method === "put" || method === "post"
+                ? JSON.stringify(facts)
+                : method === "get"
+                    ? JSON.stringify(result)
+                    : null
+        );
+
+        await Binnacle.create(payload);
+        console.log("Insercion en bitacora exitosa");
+
+
+        return res.json({ message: "Se ejecuto el midd" });
 
     } catch (err) {
         console.error("Error en bitácora:", err);

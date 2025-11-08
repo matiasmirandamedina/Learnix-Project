@@ -2,9 +2,8 @@ const sequelize = require('../config/db');
 const { DataTypes } = require('sequelize');
 
 const Binnacle = sequelize.define('Binnacle', {
-    action_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    action: {
+        type: DataTypes.STRING(255)
     },
     table: {
         type: DataTypes.STRING(255)

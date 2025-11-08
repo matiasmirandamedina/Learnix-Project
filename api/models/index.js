@@ -74,9 +74,6 @@ RolePermission.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 Permission.hasMany(RolePermission, { foreignKey: 'permission_id', as: 'role_permissions' });
 RolePermission.belongsTo(Permission, { foreignKey: 'permission_id', as: 'permission' });
 
-// Binnacles
-Action.hasMany(Binnacle, { foreignKey: 'action_id', as: 'binnacles' });
-Binnacle.belongsTo(Action, { foreignKey: 'action_id', as: 'action' });
 
 // ==================== Exportar ====================
 
