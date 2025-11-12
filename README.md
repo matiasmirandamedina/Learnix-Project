@@ -118,15 +118,11 @@ El proyecto no sigue aún una convención formal de versionado, pero se planific
 ---
 
 ## ✒️ Autores
-```markdown
-| Nombre completo             |
-|:---------------------------:|
-| Matías Miranda Medina       |
-| Axel Morales                |
-| William Romero              |
-| Maximiliano Fernández       |
-| Jhon Mayta                  |
-```
+- Matías Miranda Medina
+- Axel Morales
+- William Romero
+- Maximiliano Fernández
+- Jhon Mayta
 
 ---
 
