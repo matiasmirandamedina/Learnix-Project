@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "start": "node --watch app.js",
-    "db": "node config/db.js"
+    "start": "node --watch app.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
