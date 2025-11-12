@@ -37,8 +37,8 @@ Asegúrate de tener instalados:
 
 ### 1. Clonar el repositorio
 ```bash
-git clone <url-del-repositorio>
-cd Learnix-Project
+git clone https://github.com/InmanageCompany/Learnix.git
+cd Learnix
 ```
 
 ### 2. Configurar el Backend
@@ -47,7 +47,7 @@ cd api
 npm install
 ```
 
-Crear la base de datos learnix en PostgreSQL.
+Crear la base de datos "learnix" en PostgreSQL.
 ```sql
 -- Crear la base de datos
 CREATE DATABASE learnix;
@@ -65,7 +65,7 @@ El backend se ejecutará en http://localhost:3000
 ### 3. Configurar el Frontend
 En otra terminal:
 ```bash
-cd frontend
+cd client
 npm install
 npm run dev
 ```
@@ -92,10 +92,10 @@ Actualmente el proyecto no cuenta con un sistema automatizado de pruebas, pero s
 ### Frontend
 - [React](https://react.dev/)
 - [Vite](https://vitejs.dev/)
-- [Material](https://mui.com/) [UI](https://mui.com/) [(MUI)](https://mui.com/)
+- [Material UI (MUI)](https://mui.com/)
 - [Bootstrap](https://getbootstrap.com/)
 - [Axios](https://axios-http.com/)
-- [React](https://reactrouter.com/) [Router](https://reactrouter.com/)
+- [React Router](https://reactrouter.com/)
 
 ---
 
@@ -119,13 +119,13 @@ El proyecto no sigue aún una convención formal de versionado, pero se planific
 
 ## ✒️ Autores
 ```markdown
-Nombre completo
----------------------
-Matías Miranda Medina
-Axel Morales
-William Romero
-Maximiliano Fernández
-Jhon Mayta
+| Nombre completo             |
+|:---------------------------:|
+| Matías Miranda Medina       |
+| Axel Morales                |
+| William Romero              |
+| Maximiliano Fernández       |
+| Jhon Mayta                  |
 ```
 
 ---
