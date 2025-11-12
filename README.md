@@ -6,102 +6,127 @@
 ███████ ███████ ██   ██ ██   ██ ██   ████ ██ ██   ██ 
 ```
 
-_Acá va un párrafo que describa lo que es el proyecto_
+**Learnix** es una plataforma digital diseñada para mejorar la gestión y entrega de calificaciones escolares, ofreciendo una experiencia eficiente, clara y accesible tanto para docentes como para estudiantes y familias.  
+El proyecto busca reemplazar los sistemas tradicionales, muchas veces lentos o poco intuitivos, con una solución más moderna y organizada.  
+Learnix permite registrar, consultar y actualizar notas de manera centralizada, facilitando la comunicación y seguimiento académico dentro de las instituciones educativas.
 
-## Comenzando 🚀
+---
 
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
+## 🚀 Comenzando
 
-Mira **Deployment** para conocer como desplegar el proyecto.
+Estas instrucciones te permitirán obtener una copia del proyecto funcionando en tu máquina local para propósitos de desarrollo y prueba.
 
+> Este proyecto cuenta con dos componentes principales:
+> - **Backend:** API desarrollada en Node.js con Express y Sequelize.  
+> - **Frontend:** Interfaz construida con React y Vite.
 
-### Pre-requisitos 📋
+---
 
-_Que cosas necesitas para instalar el software y como instalarlas_
+## 📋 Pre-requisitos
 
-```
-Da un ejemplo
-```
+Asegúrate de tener instalados:
 
-### Instalación 🔧
+- [Node.js](https://nodejs.org/) (v18 o superior)
+- [PostgreSQL](https://www.postgresql.org/) (v14 o superior)
+- [Git](https://git-scm.com/)
+- Un editor de texto, como [VS Code](https://code.visualstudio.com/)
 
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
+---
 
-_Dí cómo será ese paso_
+## 🔧 Instalación
 
-```
-Da un ejemplo
-```
-
-_Y repite_
-
-```
-hasta finalizar
-```
-
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
-
-## Ejecutando las pruebas ⚙️
-
-_Explica como ejecutar las pruebas automatizadas para este sistema_
-
-### Analice las pruebas end-to-end 🔩
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/InmanageCompany/Learnix.git
+cd Learnix
 ```
 
-### Y las pruebas de estilo de codificación ⌨️
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
+### 2. Configurar el Backend
+```bash
+cd api
+npm install
 ```
 
-## Despliegue 📦
+Crear la base de datos "learnix" en PostgreSQL.
+```sql
+-- Crear la base de datos
+CREATE DATABASE learnix;
 
-_Agrega notas adicionales sobre como hacer deploy_
+-- Conectarse a la base de datos
+\c learnix
+```
 
-## Construido con 🛠️
+Ejecutar el servidor:
+```bash
+npm start
+```
+El backend se ejecutará en http://localhost:3000
 
-_Menciona las herramientas que utilizaste para crear tu proyecto_
+### 3. Configurar el Frontend
+En otra terminal:
+```bash
+cd client
+npm install
+npm run dev
+```
+El frontend se ejecutará en http://localhost:5173
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - El framework web usado
-* [Maven](https://maven.apache.org/) - Manejador de dependencias
-* [ROME](https://rometools.github.io/rome/) - Usado para generar RSS
+---
 
-## Contribuyendo 🖇️
+## ⚙️ Ejecutando las pruebas
 
-Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
+Actualmente el proyecto no cuenta con un sistema automatizado de pruebas, pero se recomienda realizar pruebas manuales desde el navegador y herramientas como Postman para verificar los endpoints del backend.
 
-## Wiki 📖
+---
 
-Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tu/proyecto/wiki)
+## 🛠️ Construido con
 
-## Versionado 📌
+### Backend
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [Sequelize](https://sequelize.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [JWT](https://jwt.io/)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
 
-Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
+### Frontend
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [Material UI (MUI)](https://mui.com/)
+- [Bootstrap](https://getbootstrap.com/)
+- [Axios](https://axios-http.com/)
+- [React Router](https://reactrouter.com/)
 
-## Autores ✒️
+---
 
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
+## 🖇️ Contribuyendo
 
-* **Andrés Villanueva** - *Trabajo Inicial* - [villanuevand](https://github.com/villanuevand)
-* **Fulanito Detal** - *Documentación* - [fulanitodetal](#fulanito-de-tal)
+Por el momento las contribuciones externas están deshabilitadas, pero el equipo interno puede crear Pull Requests hacia la rama development siguiendo las pautas del repositorio.
 
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto. 
+---
 
-## Licencia 📄
+## 📖 Wiki
 
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
+La documentación interna del proyecto y las guías de trabajo en ramas se encuentran dentro del repositorio. (aun se debe hacer esto jijijija)
 
-## Expresiones de Gratitud 🎁
+---
 
-* Comenta a otros sobre este proyecto 📢
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
-* Da las gracias públicamente 🤓.
-* Dona con cripto a esta dirección: `0xf253fc233333078436d111175e5a76a649890000`
-* etc.
+## 📌 Versionado
+
+El proyecto no sigue aún una convención formal de versionado, pero se planifica adoptar [SemVer](https://semver.org/) en futuras versiones.
+
+---
+
+## ✒️ Autores
+- Matías Miranda Medina
+- Axel Morales
+- William Romero
+- Maximiliano Fernández
+- Jhon Mayta
+
+---
+
+## 📄 Licencia
+
+Este proyecto no cuenta con licencia pública actualmente.
+Todos los derechos son reservados por el equipo desarrollador de Learnix.
