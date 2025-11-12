@@ -19,7 +19,6 @@ async function BitacoraMiddleware(req, res) {
             action: method
         };
 
-
         payload.facts = Object.keys(facts).length === 0
             ? JSON.stringify(Object.keys(result))
             : JSON.stringify(Object.keys(facts));
@@ -42,8 +41,6 @@ async function BitacoraMiddleware(req, res) {
 
         await Binnacle.create(payload);
         console.log("Insercion en bitacora exitosa");
-
-
         return res.json(result);
 
     } catch (err) {
@@ -56,23 +53,38 @@ async function BitacoraMiddleware(req, res) {
 async function BeforeBitacora(req, res, next) {
     const table_name = req.table.name;
     const method = req.method.toLowerCase();
-    const idC = req.idC; //lo manda el controlador despues del create
-    const { idD } = req.params // se ejecuta antes
+    const create = req.create; //lo manda el controlador despues del create
+    const { idD } = req.params;
+    const { idU } = req.body;
 
     const model = models[table_name];
-    if (!model) return res.json({message: `No existe el modelo Sequelize '${modelName}'`});
+    if (!model) return res.json({ message: `No existe el modelo Sequelize '${modelName}'` });
 
-    
-    let elec;
-    if (method == "post") elec = idC;
-    else if (method == "delete") elec = idD
+    let facts;
+    let verif =
+        method === "delete"
+            ? idD
+            : method === "put"
+                ? (idU || req.user.id)
+                : null;
 
-    const record = await model.findByPk(elec);
-    if (!record) return res.json({message: `Registro no encontrado en '${modelName}' con ID ${recordId}`});
 
-    const facts = record.toJSON();
+    if (verif) {
+        const record = await model.findByPk(verif);
+        if (!record) return res.json({ message: `Registro no encontrado en '${modelName}' con ID ${verif}` });
+
+        if(method == "put"){
+            req.old_value = record.toJSON();
+            req.verif = verif;
+        }
+        else facts = record.toJSON();
+    }
+
+    if (method == "post") {
+        facts = create.toJSON();
+    }
+
     req.facts = facts
-
     next();
 }
 

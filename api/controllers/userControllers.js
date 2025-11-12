@@ -85,13 +85,9 @@ const infoUser = async (req, res, next) => {
 
 // Actualizar usuario
 const updateUser = async (req, res, next) => {
-    const { idP, name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
+    const { idU, name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
     const changes = {};
-    let verif;
-    if (idP) {
-        verif = idP;
-    }
-    else verif = req.user.id;
+    const verif = req.verif;
     //cosas a usar
     // console.log(typeof phone[0] === 'string');
     // console.log(isNaN(Number('pepe')));

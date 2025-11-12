@@ -18,11 +18,8 @@ const createRole = async (req, res, next) => {
       return res.status(400).json({ message: 'El rol ya existe' });
 
     const role = await Role.create({ name: lowerCaseName });
-    const role_NV = await Role.findOne({
-      where: { name: lowerCaseName }
-    })
-
-    const roleData = role_NV.toJSON();
+    
+    req.create = role,
     req.table = "Role";
     req.facts = roleData;
     req.result = { message: 'Rol creado correctamente', role };
