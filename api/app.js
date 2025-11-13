@@ -12,7 +12,7 @@ const rectorRoutes = require('./routes/rectorRoutes');
 
 // Importar modelos y base de datos
 const { db, Role, User, Period, ReportCard, Subject, Grade, Year, Course, ClassSection, ClassSubject, StudentClass, Entity, Action, Permission, RolePermission, Binnacle } = require('./models');
-const seedDatabase = require('./config/data');
+const seedDatabase = require('./config/seeder');
 
 // ===================== Configuración del servidor =====================
 const app = express();

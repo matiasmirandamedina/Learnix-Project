@@ -74,6 +74,9 @@ RolePermission.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 Permission.hasMany(RolePermission, { foreignKey: 'permission_id', as: 'role_permissions' });
 RolePermission.belongsTo(Permission, { foreignKey: 'permission_id', as: 'permission' });
 
+Role.belongsToMany(Permission, { through: RolePermission, as: 'permissions', foreignKey: 'role_id' });
+Permission.belongsToMany(Role, { through: RolePermission, as: 'roles', foreignKey: 'permission_id' });
+
 
 // ==================== Exportar ====================
 
