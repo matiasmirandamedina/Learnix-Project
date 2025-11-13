@@ -6,7 +6,7 @@ async function BitacoraMiddleware(req, res) {
     //res.on('finish', async () => {   //esto se va usar para hacerlo de otra manera en caso de que se quiera
     try {
         //acordions
-        //middleware global
+        //middleware globa
         const method = req.method.toLowerCase();
         const table = req.table;
         const facts = req.facts || {};
