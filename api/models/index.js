@@ -77,11 +77,8 @@ RolePermission.belongsTo(Permission, { foreignKey: 'permission_id', as: 'permiss
 Role.belongsToMany(Permission, { through: RolePermission, as: 'permissions', foreignKey: 'role_id' });
 Permission.belongsToMany(Role, { through: RolePermission, as: 'roles', foreignKey: 'permission_id' });
 
-
-// ==================== Exportar ====================
-
-module.exports = {
-    db,
+// ==================== Crear objeto models ====================
+const models = {
     Role,
     User,
     Period,
@@ -98,4 +95,11 @@ module.exports = {
     Permission,
     RolePermission,
     Binnacle
+};
+
+// ==================== Exportar ====================
+module.exports = {
+    db,
+    ...models, // Exporta los modelos individualmente
+    models     // Y también el objeto models completo
 };

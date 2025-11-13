@@ -1,5 +1,5 @@
 // ===================== Importaciones =====================
-const { User, Role, Permission } = require('../models');
+const { User, Role, Permission, Entity } = require('../models');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/jwt');
 
@@ -57,15 +57,25 @@ function authorizeRole(roles = []) {
 }
 
 function checkPermission(entity_id, action_id) {
-    return (req, res, next) => {
+    return async (req, res, next) => {
         if (!req.user)
             return res.status(401).json({ message: "Usuario no autenticado" });
 
         try {
+            //causa
             const role = req.user.role;
 
             if (!role)
                 return res.status(404).json({ message: "Rol no encontrado" });
+
+            const entity = await Entity.findByPk(entity_id, {
+                attributes: ['name']
+            });
+
+            if (!entity)
+                return res.status(404).json({ message: "Entidad no encontrada" });
+
+            req.table = entity.name;
 
             const hasPermission = role.permissions?.some(p => p.entity_id === entity_id && p.action_id === action_id);
 
