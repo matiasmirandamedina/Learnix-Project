@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function NavBarTeacher() {
   const navigate = useNavigate()
