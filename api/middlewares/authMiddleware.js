@@ -62,6 +62,7 @@ function checkPermission(entity_id, action_id) {
             return res.status(401).json({ message: "Usuario no autenticado" });
 
         try {
+            //causa
             const role = req.user.role;
 
             if (!role)
