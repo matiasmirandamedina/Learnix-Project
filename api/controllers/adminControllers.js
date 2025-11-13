@@ -20,12 +20,10 @@ const createRole = async (req, res, next) => {
     const role = await Role.create({ name: lowerCaseName });
     
     req.create = role,
-    req.table = "Role";
-    req.facts = roleData;
     req.result = { message: 'Rol creado correctamente', role };
 
-    res.status(201).json({ message: 'Rol creado correctamente', role});
-    //next();
+    //res.status(201).json({ message: 'Rol creado correctamente', role});
+    next();
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
@@ -88,26 +86,24 @@ const createUser = async (req, res) => {
 // Borrar usuario
 const deleteUser = async (req, res, next) => {
   try {
-    const id = req.body.id;
+    const {idD} = req.params;
 
-    if (!id)
+    if (!idD)
       return res.status(400).json({ message: 'Debe proporcionar un ID válido' });
 
-    if (isNaN(id) || parseInt(id) <= 0)
+    if (isNaN(idD) || parseInt(idD) <= 0)
       return res.status(400).json({ message: 'El ID debe ser un número entero válido' });
-    const user = await User.findOne({ where: { id: id } });
-    const userData = user.toJSON();
-    const result = await User.destroy({ where: { id: parseInt(id) } });
+    
+    const result = await User.destroy({ where: { id: parseInt(idD) } });
 
     // `destroy` devuelve el número de filas eliminadas
     if (result === 0)
       return res.status(404).json({ message: 'El ID del usuario no existe' });
-    req.table = "User";
-    req.facts = userData;
+    
     req.result = { message: 'Usuario eliminado correctamente' };
 
-    return res.json({ message: 'Usuario eliminado correctamente' });
-    //next();
+    //return res.json({ message: 'Usuario eliminado correctamente' });
+    next();
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Error interno del servidor', error: err.message });

@@ -71,12 +71,10 @@ const infoUser = async (req, res, next) => {
         if (!user)
             return res.status(404).json({ message: 'Usuario no encontrado' });
 
-        const userData = user.toJSON();
-        req.table = "User"
-        req.result = userData;
+        req.result = user.toJSON();;
 
-        res.json(user);
-        //next();
+        //res.json(user);
+        next();
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Error al obtener información del usuario' });
@@ -85,7 +83,7 @@ const infoUser = async (req, res, next) => {
 
 // Actualizar usuario
 const updateUser = async (req, res, next) => {
-    const { idU, name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
+    const { name, date_of_birth, phone, cuil, tuition, email, password } = req.body;
     const changes = {};
     const verif = req.verif;
     //cosas a usar
@@ -124,25 +122,17 @@ const updateUser = async (req, res, next) => {
             return res.json({ message: 'Ingrese al menos un valor a modificar' });
 
 
-        const user = await User.findOne({
-            where: { id: verif },
-            attributes: Object.keys(changes)
-        });
-        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
-
-        const userData = user.toJSON();
-
-        await User.update(changes, {
+         const [updated] = await User.update(changes, {
             where: { id: verif }
         });
 
-        req.old_value = userData;
+        if(updated === 0) return res.json({ message: 'No se modifico ningun ususario' })
+
         req.facts = changes;
-        req.table = "User";
         req.result = { message: 'Se actualizó el usuario correctamente' };
 
-        res.json({ message: 'Se actualizó el usuario correctamente' })
-        //next();
+        //res.json({ message: 'Se actualizó el usuario correctamente' })
+        next();
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Error interno del servidor', error: err });

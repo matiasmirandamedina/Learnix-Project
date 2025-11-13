@@ -6,12 +6,18 @@ async function BitacoraMiddleware(req, res) {
     //res.on('finish', async () => {   //esto se va usar para hacerlo de otra manera en caso de que se quiera
     try {
         //acordions
-        //middleware global
         const method = req.method.toLowerCase();
         const table = req.table;
         const facts = req.facts || {};
         const old_value = req.old_value || {};
         const result = req.result || {};
+
+        const filtered = Object.fromEntries(
+            Object.entries(old_value).filter(([key]) => 
+                facts && Object.keys(facts).includes(key)
+            )
+        );
+        
 
         let payload = {
             table: table,
@@ -25,7 +31,7 @@ async function BitacoraMiddleware(req, res) {
 
         payload.old_value = (
             method == "put"
-                ? JSON.stringify(old_value)
+                ? JSON.stringify(filtered)
                 : method == "delete"
                     ? JSON.stringify(facts)
                     : null
@@ -41,6 +47,7 @@ async function BitacoraMiddleware(req, res) {
 
         await Binnacle.create(payload);
         console.log("Insercion en bitacora exitosa");
+
         return res.json(result);
 
     } catch (err) {
@@ -50,15 +57,15 @@ async function BitacoraMiddleware(req, res) {
 }
 //)}
 
-async function BeforeBitacora(req, res, next) {
-    const table_name = req.table.name;
+async function Prepare_bitacora(req, res, next) {
+    const table_name = req.table;
     const method = req.method.toLowerCase();
     const create = req.create; //lo manda el controlador despues del create
-    const { idD } = req.params;
-    const { idU } = req.body;
+    const { idD } = req.params || {};
+    const { idU } = req.body || {};
 
     const model = models[table_name];
-    if (!model) return res.json({ message: `No existe el modelo Sequelize '${modelName}'` });
+    if (!model) return res.json({ message: `No existe el modelo Sequelize '${model}'` });
 
     let facts;
     let verif =
@@ -72,7 +79,8 @@ async function BeforeBitacora(req, res, next) {
     if (verif) {
         const record = await model.findByPk(verif);
         if (!record) return res.json({ message: `Registro no encontrado en '${modelName}' con ID ${verif}` });
-
+        
+        
         if(method == "put"){
             req.old_value = record.toJSON();
             req.verif = verif;
@@ -84,11 +92,12 @@ async function BeforeBitacora(req, res, next) {
         facts = create.toJSON();
     }
 
-    req.facts = facts
+    req.facts = facts || {};
     next();
 }
 
 // ===================== Exportaciones =====================
 module.exports = {
-    BitacoraMiddleware
+    BitacoraMiddleware,
+    Prepare_bitacora
 }

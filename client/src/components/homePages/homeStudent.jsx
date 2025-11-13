@@ -1,6 +1,6 @@
 import NavBarStudent from '../navBarPages/navBarStudent'
 
-function HomeRector() {
+function HomeStudent() {
   return (
     <>
       <NavBarStudent />
@@ -12,4 +12,4 @@ function HomeRector() {
   );
 }
 
-export default HomeRector;
+export default HomeStudent;
