@@ -1,5 +1,6 @@
 // ===================== Importaciones =====================
-const { Role, User, Course, ClassSection, Subject, ClassSubject, StudentClass } = require('../models');
+const { where } = require('sequelize');
+const { Role, User, Course, ClassSection, Subject, ClassSubject, StudentClass, Year } = require('../models');
 const bcrypt = require('bcrypt');
 
 // ===================== Controladores =====================
@@ -44,20 +45,68 @@ const registerTeacher = async (req, res) => {
 
 // Obtener cursos de un profesor
 const teacherCourses = async (req, res) => {
-    const { teacherId } = req.params;
+    const id = req.user.id;
+
+    if (!id)
+        return res.status(404).json({ message: "No hay id registrado" });
 
     try {
         const courses = await ClassSection.findAll({
-            where: { teacherId: teacherId }
+            where: { teacher_id: id },
+            include: [
+                { model: Year, as: "year", attributes: ["name"] },
+                { model: Course, as: "course", attributes: ["name"] },
+                { model: User, as: "teacher", attributes: ["name"] }
+            ]
         });
 
-        if (!courses)
-            return res.status(400).json('No hay cursos registrados');
+        if (!courses || courses.length === 0)
+            return res.status(404).json('No hay cursos registrados');
 
         res.json(courses);
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
+        return res.status(500).json({
+            message: 'Error interno del servidor',
+            error: err.message
+        });
+    }
+};
+
+// Ingresar código de curso
+const codeCourse = async (req, res) => {
+    const id = req.user.id;
+    const code = Number(req.body.code);
+
+    if (!code)
+        return res.status(400).json({ message: "Falta el código" });
+
+    try {
+        const course = await ClassSection.findOne({
+            where: { code }
+        });
+
+        if (!course)
+            return res.status(404).json({ message: "No se encontró el curso" });
+
+        if (course.teacher_id)
+            return res.status(400).json({ message: "Este curso ya tiene profesor asignado" });
+
+        await course.update({
+            teacher_id: id
+        });
+
+        return res.json({
+            message: "Profesor asignado correctamente",
+            course
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: "Error interno del servidor",
+            error: err.message
+        });
     }
 };
 
@@ -110,5 +159,6 @@ const teacherCourses = async (req, res) => {
 // ===================== Exportaciones =====================
 module.exports = {
     registerTeacher,
-    teacherCourses
+    teacherCourses,
+    codeCourse
 };

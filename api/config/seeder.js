@@ -128,7 +128,7 @@ async function seedDatabase() {
             defaults: {
                 year_id: years['1er Año'].id,
                 courses_id: courses['A'].id,
-                teacher_id: users['teacher'].id,
+                teacher_id: null,
                 code: 101
             }
         });
