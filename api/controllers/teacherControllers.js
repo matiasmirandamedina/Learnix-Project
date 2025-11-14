@@ -78,8 +78,8 @@ const codeCourse = async (req, res) => {
     const id = req.user.id;
     const code = Number(req.body.code);
 
-    if (!code)
-        return res.status(400).json({ message: "Falta el código" });
+    if (isNaN(code) || code <= 0)
+        return res.status(400).json({ message: "Código inválido" });
 
     try {
         const course = await ClassSection.findOne({
