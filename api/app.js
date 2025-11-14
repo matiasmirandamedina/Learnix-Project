@@ -9,6 +9,7 @@ const studentRoutes = require('./routes/studentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
 const rectorRoutes = require('./routes/rectorRoutes');
+const {getUsers, createRole, roleList, createUser, deleteUser} = require('./controllers/adminControllers');
 
 // Importar modelos y base de datos
 const { db, Role, User, Period, ReportCard, Subject, Grade, Year, Course, ClassSection, ClassSubject, StudentClass, Entity, Action, Permission, RolePermission, Binnacle } = require('./models');
@@ -34,6 +35,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/getUser', getUsers);
 
 // ===================== Bitacora =====================
 app.use(BitacoraMiddleware);

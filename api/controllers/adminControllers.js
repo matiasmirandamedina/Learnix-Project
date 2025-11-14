@@ -110,10 +110,22 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  try{
+    const cantidadActivos = await User.count({ where: { isActive: true }});
+    res.json({cantidadActivos});
+  }
+  catch(err){
+    console.error(err);
+    return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
+  }
+}
+
 
 
 // ===================== Exportaciones =====================
 module.exports = {
+  getUsers,
   createRole,
   roleList,
   createUser,
