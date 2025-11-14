@@ -67,11 +67,17 @@ function HomeTeacher() {
         {courses.length === 0 ? (
           <p>No hay cursos asignados.</p>
         ) : (
-          <ul>
-            {courses.map((item) => (
-              <li key={item.id}>{item.name}</li>
-            ))}
-          </ul>
+          <>
+            {
+              courses.map((item) => (
+                <div className="feature-card">
+                  <ul>
+                    <li key={item.id}>{item.name}</li>
+                  </ul>
+                </div>
+              ))
+            }
+          </>
         )}
 
         <Button variant="contained" onClick={() => modalRef.current.showModal()} sx={{ mt: 2, backgroundColor: "#2196F3" }}>
