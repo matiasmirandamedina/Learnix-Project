@@ -6,11 +6,9 @@ const teacherControllers = require('../controllers/teacherControllers');
 
 // ===================== Rutas =====================
 
-// Ruta para registro de profe
 router.post('/register', teacherControllers.registerTeacher);
-
-// Ruta para obtener cursos
 router.get('/courses', authMiddleware.verifyToken, authMiddleware.authorizeRole(['teacher']), teacherControllers.teacherCourses);
+router.put('/codeCourse', authMiddleware.verifyToken, authMiddleware.authorizeRole(['teacher']), teacherControllers.codeCourse);
 
 // ===================== Exportaciones =====================
 module.exports = router;

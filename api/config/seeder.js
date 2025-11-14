@@ -33,7 +33,7 @@ async function seedDatabase() {
             roles[name] = role;
         }
 
-        // === 2. USUARIOS ===
+        // === 2. USUARIOS (con isActive agregado) ===
         const usersData = [
             {
                 role: 'admin',
@@ -43,7 +43,8 @@ async function seedDatabase() {
                 date_of_birth: '1980-01-01',
                 phone: '1111111111',
                 cuil: 20111111111,
-                tuition: 1000
+                tuition: 1000,
+                isActive: true
             },
             {
                 role: 'rector',
@@ -53,7 +54,8 @@ async function seedDatabase() {
                 date_of_birth: '1975-06-15',
                 phone: '2222222222',
                 cuil: 20222222222,
-                tuition: 2000
+                tuition: 2000,
+                isActive: true
             },
             {
                 role: 'teacher',
@@ -63,7 +65,8 @@ async function seedDatabase() {
                 date_of_birth: '1990-03-21',
                 phone: '3333333333',
                 cuil: 20333333333,
-                tuition: 3000
+                tuition: 3000,
+                isActive: true
             },
             {
                 role: 'student',
@@ -73,13 +76,14 @@ async function seedDatabase() {
                 date_of_birth: '2008-09-10',
                 phone: '4444444444',
                 cuil: 20444444444,
-                tuition: 4000
+                tuition: 4000,
+                isActive: true
             }
         ];
 
         const users = {};
         for (const u of usersData) {
-            const { role, ...userData } = u; // saca 'role' de u
+            const { role, ...userData } = u;
             const [user] = await User.findOrCreate({
                 where: { email: u.email },
                 defaults: {
@@ -128,7 +132,7 @@ async function seedDatabase() {
             defaults: {
                 year_id: years['1er Año'].id,
                 courses_id: courses['A'].id,
-                teacher_id: users['teacher'].id,
+                teacher_id: null,
                 code: 101
             }
         });
@@ -196,12 +200,10 @@ async function seedDatabase() {
                     where: { entity_id: entityRecords[e].id, action_id: actionRecords[a].id }
                 });
 
-                // Solo admin y rector tienen todos los permisos
                 await RolePermission.findOrCreate({ where: { role_id: roles['admin'].id, permission_id: permission.id } });
                 await RolePermission.findOrCreate({ where: { role_id: roles['rector'].id, permission_id: permission.id } });
             }
         }
-
 
         console.log('Datos de prueba creados exitosamente.');
 
