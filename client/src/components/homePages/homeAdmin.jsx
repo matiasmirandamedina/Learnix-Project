@@ -1,36 +1,26 @@
 import NavBarAdmin from '../navBarPages/NavBarAdmin'
+import { useState, useEffect } from 'react';
+import axios from "axios";
 
 function HomeAdmin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [activos, setActivos] = useState(0);
+  const token = localStorage.getItem("token");
 
-  const fetchLogin = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/api/teacher/courses", {
-        email,
-        password
-      });
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-      const { token, role } = response.data;
+  const fetchUsers = async () => {
+    const response = await axios.get("http://localhost:3000/api/admin/users",
+      {
+        headers: {
+          Authorization: token
+        }
+      }
+    );
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", role);
-
-      if (role === "admin") navigate("/homeAdmin");
-      else if (role === "teacher") navigate("/homeTeacher");
-      else if (role === "rector") navigate("/homeRector");
-      else alert("Rol no reconocido");
-    } catch (error) {
-      if (error.response)
-        alert(error.response.data.message);
-
-      else if (error.request)
-        alert("No hay respuesta del servidor.");
-
-      else
-        alert(`Error: ${error.message}`);
-    }
+    console.log(response.data);
+    setActivos(response.data.cantidadActivos);
   };
 
   return (
@@ -38,7 +28,7 @@ function HomeAdmin() {
       <NavBarAdmin />
       <div className="admin-page">
         <h1>Panel del Administrador</h1>
-        <p>Bienvenido al panel de control de Learnix.</p>
+        <p>Usuarios activos: {activos}</p>
       </div>
     </>
   );
