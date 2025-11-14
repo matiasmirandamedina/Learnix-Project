@@ -179,7 +179,7 @@ async function seedDatabase() {
         }
 
         // === 12. ENTIDADES, ACCIONES, PERMISOS, ROLES ===
-        const entities = ['User', 'Grade', 'Report_card', 'Subject'];
+        const entities = ['User', 'Grade', 'Report_card', 'Subject', 'ClassSection', 'Period', 'Permission', 'Binnacle'];
         const actions = ['create', 'read', 'update', 'delete'];
 
         const entityRecords = {};
