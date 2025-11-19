@@ -134,31 +134,33 @@ const codeCourse = async (req, res) => {
 //     }
 // };
 
-// // Obtener alumnos de la seccion de un profesor
-// const teacherStudents = async (req, res) => {
-//     const { ClassSection_id } = req.params;
+// Obtener alumnos de la seccion de un profesor
+const teacherStudents = async (req, res) => {
+    const { ClassSection_id } = req.params;
 
-//     try {
-//         const Students = await StudentClass.findAll({
-//             where: { class_sections_id: ClassSection_id },
-//             include: [
-//                 { model: User, as: 'student' }
-//             ]
-//         });
+    try {
+        
+        const Students = await StudentClass.findAll({
+            where: { class_sections_id: ClassSection_id },
+            include: [
+                { model: User, as: 'student' }
+            ]
+        });
 
-//         if (!Students)
-//             return res.status(400).json('No hay estudiantes en la seccion registrados');
+        if (!Students)
+            return res.status(400).json('No hay estudiantes en la seccion registrados');
 
-//         res.status(417).json(Students)
-//     } catch (err) {
-//         console.error(err);
-//         return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
-//     }
-// };
+        res.json(Students)
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
+    }
+};
 
 // ===================== Exportaciones =====================
 module.exports = {
     registerTeacher,
     teacherCourses,
-    codeCourse
+    codeCourse,
+    teacherStudents
 };

@@ -2,6 +2,7 @@ import NavBarTeacher from '../navBarPages/navBarTeacher';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 function HomeTeacher() {
   const [courseCode, setCourseCode] = useState("");
@@ -69,7 +70,22 @@ function HomeTeacher() {
         ) : (
           <ul>
             {courses.map((item) => (
-              <li key={item.id}>{item.name}</li>
+              <li key={item.id}>
+                {item.name}
+                <Button
+                  component={Link}
+                  to={`/seeAlumns/${item.id}`}
+                  variant="contained"
+                  sx={{ 
+                    padding: "4px 10px",
+                    fontSize: "0.75rem",
+                    marginLeft: "20px",
+                    backgroundColor: "#2196F3" 
+                  }}
+                >
+                  Ver alumnos
+                </Button>
+              </li>
             ))}
           </ul>
         )}

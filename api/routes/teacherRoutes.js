@@ -9,6 +9,6 @@ const teacherControllers = require('../controllers/teacherControllers');
 router.post('/register', teacherControllers.registerTeacher);
 router.get('/courses', authMiddleware.verifyToken, authMiddleware.authorizeRole(['teacher']), teacherControllers.teacherCourses);
 router.put('/codeCourse', authMiddleware.verifyToken, authMiddleware.authorizeRole(['teacher']), teacherControllers.codeCourse);
-
+router.get('/students/:ClassSection_id', authMiddleware.verifyToken, authMiddleware.authorizeRole(['teacher']), teacherControllers.teacherStudents);
 // ===================== Exportaciones =====================
 module.exports = router;
