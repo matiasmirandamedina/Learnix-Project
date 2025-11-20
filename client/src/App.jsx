@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import Home from './components/homePages/home'
-import HomeAdmin from './components/homePages/homeAdmin'
-import HomeTeacher from './components/homePages/homeTeacher'
-import HomeRector from './components/homePages/homeRector'
-import HomeStudent from './components/homePages/homeStudent'
-import Login from './components/loginPages/login'
-import LoginStudent from './components/loginPages/loginStudent'
-import Footer from './components/footerPages/footer'
-import Register from './components/register'
-import Profile from './components/profile'
+import Home from './components/generalPages/home'
+import HomeAdmin from './components/adminPages/homeAdmin'
+import HomeTeacher from './components/teacherPages/homeTeacher'
+import HomeRector from './components/rectorPages/homeRector'
+import HomeStudent from './components/studentPages/homeStudent'
+import Login from './components/generalPages/login'
+import LoginStudent from './components/studentPages/loginStudent'
+import Footer from './components/generalPages/footer'
+import Register from './components/generalPages/register'
+import Profile from './components/generalPages/profile'
+import UsersAdmin from './components/adminPages/UsersAdmin'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/loginStudent' element={<LoginStudent />}></Route>
           <Route path='/register' element={<Register />}></Route>
           <Route path='/homeAdmin' element={<HomeAdmin />}></Route>
+          <Route path='/usersAdmin' element={<UsersAdmin />}></Route>
           <Route path='/homeTeacher' element={<HomeTeacher />}></Route>
           <Route path='/homeRector' element={<HomeRector />}></Route>
           <Route path='/homeStudent' element={<HomeStudent />}></Route>

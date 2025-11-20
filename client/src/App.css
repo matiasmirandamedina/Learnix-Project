@@ -57,6 +57,13 @@ a:hover {
   color: var(--blue-primary);
 }
 
+.colorLetra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgb(0, 0, 0);
+}
+
 /* =========================================
    NAVBAR
 ========================================= */
@@ -114,8 +121,7 @@ a:hover {
 }
 
 .feature-card {
-  margin: 2rem;
-  background: rgb(245, 245, 245);
+  background: white;
   border-radius: var(--radius);
   padding: 1.5rem;
   box-shadow: var(--shadow-soft);

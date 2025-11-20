@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginIcon from "@mui/icons-material/Login";
-import NavBar from '../navBarPages/navBar'
+import NavBar from '../generalPages/navBar'
 
 function LoginStudent() {
   const [cuil, setCuil] = useState("");

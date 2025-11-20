@@ -1,4 +1,4 @@
-import NavBarAdmin from '../navBarPages/NavBarAdmin'
+import NavBarAdmin from './NavBarAdmin'
 import { useState, useEffect } from 'react';
 import axios from "axios";
 

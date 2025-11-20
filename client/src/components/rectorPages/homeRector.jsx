@@ -1,4 +1,4 @@
-import NavBarRector from '../navBarPages/navBarRector'
+import NavBarRector from './navBarRector'
 
 function HomeRector() {
   return (

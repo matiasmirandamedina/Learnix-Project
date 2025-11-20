@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoginIcon from "@mui/icons-material/Login";
 
-import NavBarAdmin from "./navBarPages/NavBarAdmin";
-import NavBarRector from "./navBarPages/navBarRector";
-import NavBarStudent from "./navBarPages/navBarStudent";
-import NavBarTeacher from "./navBarPages/navBarTeacher";
+import NavBarAdmin from "../adminPages/NavBarAdmin";
+import NavBarRector from "../rectorPages/navBarRector";
+import NavBarStudent from "../studentPages/navBarStudent";
+import NavBarTeacher from "../teacherPages/navBarTeacher";
 
 import LogoutButton from "./logOut";
 

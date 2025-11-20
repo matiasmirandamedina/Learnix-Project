@@ -1,4 +1,4 @@
-import NavBarStudent from '../navBarPages/navBarStudent'
+import NavBarStudent from './navBarStudent'
 
 function HomeStudent() {
   return (

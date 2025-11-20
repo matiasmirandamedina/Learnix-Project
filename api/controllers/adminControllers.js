@@ -18,9 +18,9 @@ const createRole = async (req, res, next) => {
       return res.status(400).json({ message: 'El rol ya existe' });
 
     const role = await Role.create({ name: lowerCaseName });
-    
+
     req.create = role,
-    req.result = { message: 'Rol creado correctamente', role };
+      req.result = { message: 'Rol creado correctamente', role };
 
     //res.status(201).json({ message: 'Rol creado correctamente', role});
     next();
@@ -86,20 +86,20 @@ const createUser = async (req, res) => {
 // Borrar usuario
 const deleteUser = async (req, res, next) => {
   try {
-    const {idD} = req.params;
+    const { idD } = req.params;
 
     if (!idD)
       return res.status(400).json({ message: 'Debe proporcionar un ID válido' });
 
     if (isNaN(idD) || parseInt(idD) <= 0)
       return res.status(400).json({ message: 'El ID debe ser un número entero válido' });
-    
+
     const result = await User.destroy({ where: { id: parseInt(idD) } });
 
     // `destroy` devuelve el número de filas eliminadas
     if (result === 0)
       return res.status(404).json({ message: 'El ID del usuario no existe' });
-    
+
     req.result = { message: 'Usuario eliminado correctamente' };
 
     //return res.json({ message: 'Usuario eliminado correctamente' });
@@ -111,15 +111,44 @@ const deleteUser = async (req, res, next) => {
 };
 
 const getUsers = async (req, res) => {
-  try{
-    const cantidadActivos = await User.count({ where: { isActive: true }});
-    res.json({cantidadActivos});
+  try {
+    const cantidadActivos = await User.count({ where: { isActive: true } });
+    res.json({ cantidadActivos });
   }
-  catch(err){
+  catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Error interno del servidor', error: err.message });
   }
 }
+
+const users = async (req, res) => {
+  try {
+    const data = await User.findAll({
+      include: [
+        { model: Role, as: "role", attributes: ["name"] }
+      ],
+      attributes: {
+        exclude: ["password"]
+      }
+    });
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        message: "No hay usuarios registrados"
+      });
+    }
+
+    return res.json(data);
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Error interno del servidor",
+      error: err.message
+    });
+  }
+};
+
 
 
 
@@ -129,5 +158,6 @@ module.exports = {
   createRole,
   roleList,
   createUser,
-  deleteUser
+  deleteUser,
+  users
 }

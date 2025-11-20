@@ -1,4 +1,4 @@
-import NavBarTeacher from '../navBarPages/navBarTeacher';
+import NavBarTeacher from './navBarTeacher';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Button } from '@mui/material';
