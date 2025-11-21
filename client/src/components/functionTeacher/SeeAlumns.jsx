@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams  } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { Button } from '@mui/material';
 import axios from "axios";
 import NavBarTeacher from '../navBarPages/navBarTeacher';
@@ -9,6 +9,10 @@ function SeeAlumns() {
 
   const token = localStorage.getItem("token")
   const {ClassSection_id} = useParams()
+
+  const location = useLocation();
+  const state = location.state || {};
+  const Sid = state.subject_id;
 
   const Alumns = async () => {
     try {
@@ -56,7 +60,7 @@ function SeeAlumns() {
         )}
 
         <Button component={Link} to={`/ModNotes`} variant="contained"> Modificar notas </Button>
-        <Button component={Link} to={`/AddNotes`} variant="contained" state={{ alumnos: alumns }}> Agregar notas </Button>
+        <Button component={Link} to={`/AddNotes`} variant="contained" state={{ alumnos: alumns, subject_id: Sid}}> Agregar notas </Button>
       </div>
     </>
   );

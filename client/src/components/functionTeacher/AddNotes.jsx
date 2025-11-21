@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { Button, Select, MenuItem } from '@mui/material';
 import axios from "axios";
 import NavBarTeacher from '../navBarPages/navBarTeacher';
 
-import { useLocation } from "react-router-dom";
 
 function AddNotes() {
   const [periods, SetPeriods] = useState([]);
   const [selectedPeriods, setSelectedPeriods] = useState({});
   const [notes, setNotes] = useState({});
   
-  const [comentario, SetComentario] = useState("");
+  const [comment, SetComentario] = useState("");
   const [conceptual, SetConceptual] = useState(["En proceso", "Suficiente", "Avanzado"]);
   const token = localStorage.getItem("token")
 
   const location = useLocation();
   const state = location.state || {};
-
-  console.log(state.alumnos);
+  const students = state.alumnos;
+  const subject_id = state.subject_id;
 
   const List = async () => {
     try {
@@ -29,6 +28,33 @@ function AddNotes() {
       );
 
       SetPeriods(response.data);
+    } catch (error) {
+      if (error.response)
+        alert(error.response.data.message);
+
+      else if (error.request)
+        alert("No hay respuesta del servidor.");
+
+      else
+        alert(`Error: ${error.message}`);
+    }
+  };
+
+  const Grades = async (user_id) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/api/teacher/addGrade`,{
+        user_id,
+        grade_value: notes[user_id],
+        period: selectedPeriods[user_id],
+        comment,
+        subject_id
+      },
+        {
+          headers: { Authorization: token }
+        }
+      );
+
+      alert(response.data.message);
     } catch (error) {
       if (error.response)
         alert(error.response.data.message);
@@ -61,11 +87,11 @@ function AddNotes() {
               <th>Comentario</th>
             </tr>
           </thead>
-          {state.alumnos.length === 0 ? (
+          {students.length === 0 ? (
             <p>No hay alumnos asignados.</p>
           ) : (
             <tbody>
-              {state.alumnos.map((item) => (
+              {students.map((item) => (
                 <tr>
                   <th key={item.id}>
                     {item.name}
@@ -119,7 +145,7 @@ function AddNotes() {
                     <input type="text" placeholder="Comentario" onChange={(e) => SetComentario(e.target.value)} />
                   </th>
                   <th>
-                  <Button component={Link} to={`/ModNotes`} variant="contained"> Agregar </Button>
+                  <Button onClick={() => Grades(item.id)} variant="contained"> Agregar </Button>
                   </th>
                 </tr>
               ))}

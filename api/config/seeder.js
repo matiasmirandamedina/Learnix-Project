@@ -172,7 +172,7 @@ async function seedDatabase() {
                     report_card_id: reportCard.id
                 },
                 defaults: {
-                    grade_value: Math.floor(Math.random() * 10) + 1,
+                    grade_value: "Suficiente",
                     comment: 'Desempeño satisfactorio'
                 }
             });
