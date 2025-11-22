@@ -2,10 +2,12 @@ import NavBarTeacher from '../navBarPages/navBarTeacher';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 function HomeTeacher() {
   const [courseCode, setCourseCode] = useState("");
   const [courses, setCourses] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const modalRef = useRef(null);
 
   const token = localStorage.getItem("token")
@@ -19,6 +21,27 @@ function HomeTeacher() {
       );
 
       setCourses(response.data);
+    } catch (error) {
+      if (error.response)
+        alert(error.response.data.message);
+      else if (error.request)
+        alert("No hay respuesta del servidor.");
+      else
+        alert(`Error: ${error.message}`);
+    }
+  };
+
+  const fetchSubjects = async (ClassSection_id) => {
+    try {
+      console.log(ClassSection_id);
+      const response = await axios.get(`http://localhost:3000/api/teacher/subjects/${ClassSection_id}`,
+        {
+          headers: { Authorization: token }
+        }
+      );
+
+      setSubjects(response.data.map(r => r.subject));
+      console.log(subjects);
     } catch (error) {
       if (error.response)
         alert(error.response.data.message);
@@ -69,7 +92,41 @@ function HomeTeacher() {
         ) : (
           <ul>
             {courses.map((item) => (
-              <li key={item.id}>{item.name}</li>
+              <li key={item.id}>
+                {item.name}
+                {subjects.length === 0 ? (
+                  <Button variant="contained" 
+                  sx={{
+                    padding: "4px 10px",
+                    fontSize: "0.75rem",
+                    marginLeft: "20px",
+                    backgroundColor: "#2196F3"
+                  }}
+                  onClick={() => fetchSubjects(item.id)}
+                  > Ver materias
+                  </Button>
+                ) : subjects.map((s) => (
+                  <ul>
+                    <li key={s.id}>
+                      {s.name}
+                      <Button
+                        component={Link}
+                        to={`/seeAlumns/${item.id}`}
+                        state={{subject_id: s.id}}
+                        variant="contained"
+                        sx={{
+                          padding: "4px 10px",
+                          fontSize: "0.75rem",
+                          marginLeft: "20px",
+                          backgroundColor: "#2196F3"
+                        }}
+                      >
+                        Ver alumnos
+                      </Button>
+                    </li>
+                  </ul>
+                ))}
+              </li>
             ))}
           </ul>
         )}
