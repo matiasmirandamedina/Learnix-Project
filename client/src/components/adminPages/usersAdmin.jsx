@@ -16,7 +16,7 @@ function UsersAdmin() {
       );
 
       console.log(response.data);
-      
+
 
       setUsers(response.data);
     } catch (error) {
@@ -37,8 +37,8 @@ function UsersAdmin() {
     <>
       <NavBarAdmin />
       <div className="teacher-page">
-        <h1>Panel del Profesor</h1>
-        <p>Gestione sus clases y calificaciones aquí.</p>
+        <h1>Usuarios</h1>
+        <p>vista de usuarios</p>
 
         {users.length === 0 ? (
           <p>No hay cursos asignados.</p>
@@ -46,9 +46,9 @@ function UsersAdmin() {
           <>
             {
               users.map((item) => (
-                <div className="feature-card">
+                <div className="feature-card" key={item.id}>
                   <ul>
-                    <li key={item.id}>{item.name}</li>
+                    <li>{item.name}</li>
                   </ul>
                 </div>
               ))
